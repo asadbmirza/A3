@@ -1,0 +1,26 @@
+users(user_id:int, email: text, password: text, fname: text, lname: text, account_type: text)
+primary key: user_id
+
+courses(course_id: string, course_name:text)
+primary key: course_id
+
+coursework(coursework_id: int, coursework_name: string, course_id: int)
+primary key: coursework_id
+foreign key: course_id
+
+teaches(instructor_id: int, course_id: int, student_id: int)
+primary key: instructor_id, course_id, student_id
+
+instructorCoursework(coursework_id: int, instructor_id: int)
+primary key: coursework_id, foreign key: instructor_id
+
+studentCoursework(coursework_id: int, student_id, mark: int)
+primary key/foreign key: coursework_id and student_id
+
+remarkRequests(remark_request_id: int, coursework_id: int, student_id: int, reason: string, status: string)
+primary key: remark_request_id
+foreign key: coursework_id and student_id
+
+feedback(feedback_id, teaching_likes: text, teaching_recommendations: text, lab_likes: text, lab_recommendations: text, instructor_id: int)
+primary key: feedback_id
+foreign key: instructor_id
