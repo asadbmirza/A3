@@ -8,16 +8,13 @@ coursework(coursework_id: int, coursework_name: string, course_id: int)
 primary key: coursework_id
 foreign key: course_id
 
-teaches(instructor_id: int, course_id: int, student_id: int)
-primary key: instructor_id, course_id, student_id
+instructor_courseworks(instructor_coursework_id, coursework_id: int, instructor_id: int)
+primary key: instructor_coursework_id, foreign key: instructor_id, coursework_id
 
-instructorCoursework(coursework_id: int, instructor_id: int)
-primary key: coursework_id, foreign key: instructor_id
-
-studentCoursework(coursework_id: int, student_id, mark: int)
+student_enrollments(instructor_coursework_id: int, student_id, mark: int)
 primary key/foreign key: coursework_id and student_id
 
-remarkRequests(remark_request_id: int, coursework_id: int, student_id: int, reason: string, status: string)
+remark_requests(remark_request_id: int, instructor_coursework_id: int, student_id: int, reason: string, status: string)
 primary key: remark_request_id
 foreign key: coursework_id and student_id
 
