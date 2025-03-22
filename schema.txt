@@ -1,8 +1,8 @@
-users(user_id: int, email: text, password: text, fname: text, lname: text, account_type: text)
+users(user_id: int, username: text, password: text, fname: text, lname: text, account_type: text)
 primary key: user_id
 constraints:
-  - email must be unique
-  - account_type must be one of ('instructor', 'student')
+  - username must be unique
+  - account_type must be one of ('Instructor', 'Student')
 
 courses(course_id: int, course_name: text)
 primary key: course_id
