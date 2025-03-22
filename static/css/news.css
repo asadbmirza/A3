@@ -1,0 +1,31 @@
+body{
+    margin: 0;
+}
+
+.container{
+    display: flex;
+    flex-direction: column;
+    font-family: Marmelad;
+    margin: 30px;
+    border: 3px solid black;
+    border-radius: 10px;
+}
+
+.news{
+    margin-right: 30px;
+    margin: 20px;
+    padding: 10px;
+    text-align: center;
+    font-family: Marmelad;
+    font-style: normal;
+    font-weight: 400;
+}
+
+.news h2{
+    font-size: 36px;
+    text-decoration: underline;
+}
+
+.topnav:has(> #darkmode-toggle:checked) + .container{
+    border-color: white;
+}

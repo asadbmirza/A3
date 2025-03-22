@@ -1,0 +1,214 @@
+@import url('https://fonts.googleapis.com/css2?family=Manuale:ital,wght@0,300..800;1,300..800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Marmelad&display=swap');
+body {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    transition: background-color 0.3s linear
+}
+
+.container{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    flex: 1;
+}
+
+.container a{
+    text-decoration: underline;
+    color: black;
+}
+
+.content {
+    padding: 40px 10%;
+    font-family: Marmelad, Arial, Helvetica, sans-serif;
+    display: flex;
+    justify-content: center;
+    flex: 1;
+}
+
+.announcements{
+    margin-right: 30px;
+    margin: 20px;
+    height: 55vh;
+    border: solid 3px black;
+    border-radius: 10px;
+    padding: 10px;
+    overflow: auto;
+    text-align: center;
+    font-family: Marmelad;
+    font-style: normal;
+    font-weight: 400;
+}
+
+.announcements h2{
+    font-size: 36px;
+    text-decoration: underline;
+}
+
+.header{
+    margin-left: 30px;
+    max-width: 90%;
+    overflow: auto;
+    text-align: center;
+    font-family: Manuale;
+    font-weight: 400;
+}
+
+.header p:first-child{
+    font-size: 41px;
+}
+
+.header p:first-child ~ p{
+    font-size: 20px;
+}
+
+span{
+    font-weight: bold;
+}
+
+.contact{
+    align-items: center;
+    margin: 20px;
+    border: solid 3px black;
+    border-radius: 10px;
+    padding: 10px;
+    overflow: auto;
+    text-align: center;
+    font-family: Marmelad;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+}
+
+.contact h2{
+    font-size: 36px;
+    text-decoration: underline;
+}
+
+.contact-container{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin: 20px;
+}
+
+.contact-info{
+    font-size: 25px;
+}
+
+.email{
+    text-decoration: underline;
+}
+.purva{
+    display: flex;
+    flex-direction: column;
+    max-width: fit-content;
+}
+
+.purva img{
+    float: right;
+    border: solid 3px black;
+    border-radius: 10px;
+}
+
+.deadlines{
+    margin-right: 30px;
+    margin: 20px;
+    height: 55vh;
+    border: solid 3px black;
+    border-radius: 10px;
+    padding: 10px;
+    overflow: auto;
+    text-align: center;
+    font-family: Marmelad;
+    font-style: normal;
+    font-weight: 400;
+}
+
+.deadlines h2{
+    font-size: 36px;
+    text-decoration: underline;
+}
+
+.container a:hover{
+    color: #416b85;
+}
+
+.topnav:has(> #darkmode-toggle:checked) + .container{
+    color: white;
+}
+
+.topnav:has(> #darkmode-toggle:checked) + .container a{
+    color: white;
+}
+
+.topnav:has(> #darkmode-toggle:checked) + .container a:hover{
+    color: #416b85;
+}
+
+.topnav:has(> #darkmode-toggle:checked) + .container .announcements{
+    border-color: white;
+}
+
+.topnav:has(> #darkmode-toggle:checked) + .container .contact{
+    border-color: white;
+}
+
+.topnav:has(> #darkmode-toggle:checked) + .container .deadlines{
+    border-color: white;
+}
+
+.topnav:has(> #darkmode-toggle:checked) + .container .contact img{
+    border-color: white;
+}
+
+.topnav:has(> #darkmode-toggle:checked) ~ footer {
+    background-color: #0b2635;
+}
+
+@media (max-width: 768px){
+
+    .container{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .announcements{
+        float: none;
+        margin-right: 0px;
+        margin-left: 0px;
+        width: 80%;
+        font-size: 20px;
+    }
+    .header{
+        float: none;
+        margin-left: 0px;
+        margin-right: 0px;
+        width: 100%;
+        font-size: 20px;
+    }
+
+    .contact{
+        float: none;
+        margin-left: 0px;
+        margin-right: 0px;
+        width: 80%;
+        font-size: 20px;
+    }
+
+    .contact-container{
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+    }
+}
+
+@media (max-width: 1300px){
+    .contact-container{
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+    }
+}

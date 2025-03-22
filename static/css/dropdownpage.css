@@ -1,0 +1,126 @@
+h1, h2, h3, h4, h5 {
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    color: black;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: 50px auto;
+    column-gap: 20px;
+    row-gap: 5px;
+    
+}
+
+.grid > * {
+    align-self: center;
+}
+
+.grid.dropDownBody > a, .grid.dropDownBody > h2 {
+    grid-row: span 2;
+}
+
+.grid.dropDownBody > h2:has(+ h3){ /** Found from https://developer.mozilla.org/en-US/docs/Web/CSS/:has**/
+    grid-row: span 1;
+}
+
+h1 {
+    font-size: 28px;
+}
+
+h3 {
+    font-weight: lighter;
+    font-size: 15px;
+}
+
+.dropDownLayout {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    flex: 1;
+}
+
+.dropDownBox svg {
+    width: 50px;
+    height: 50px;
+}
+
+.dropDownBox {
+    border: 3px solid black;
+    margin: 15px;
+}
+
+.dropDownBox > div {
+    padding: 10px;
+}
+
+.dropDownHeader svg {
+    fill : #808080;
+    stroke: black;
+    transition: transform 0.15s ease-in-out;
+}
+
+
+.dropDownHeader {
+    background-color: #E8E8E8;
+    cursor:pointer;
+    transition: background-color 0.15s ease-in-out;
+}
+
+.dropDownBody:hover {
+    background-color: #808080;
+}
+
+.dropDownHeader:hover {
+    background-color: #64A6CF;
+}
+
+.dropDownBody {
+    border-top: 3px solid black;
+    display: none;
+    transition: background-color 0.15s ease-in-out;
+}
+
+.press {
+    display: none;
+}
+
+.press:checked ~ .dropDownBody {
+    display: grid;
+}
+
+.press:checked + .dropDownHeader > svg{
+    transform: rotate(90deg);
+}
+
+.topnav:has(> #darkmode-toggle:checked) + .content .dropDownBody {
+    color: white;
+    fill: white;
+}
+.topnav:has(> #darkmode-toggle:checked) + .content a {
+    color: white;
+    fill: white;
+}
+.topnav:has(> #darkmode-toggle:checked) + .content .dropDownHeader {
+    color: white;
+    background-color: black;
+}
+ 
+.topnav:has(> #darkmode-toggle:checked) + .content .dropDownHeader:hover {
+    color: white;
+    background-color: #04446B;
+}

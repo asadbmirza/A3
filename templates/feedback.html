@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSCB20 Page</title>
+    <link rel="stylesheet" href="../static/css/navbar.css">
+    <link rel="stylesheet" href="../static/css/index.css">
+    <link rel="stylesheet" href="../static/css/feedback.css">
+    <link rel="stylesheet" href="../static/css/footer.css">
+
+</head>
+<body>
+    <nav class="topnav">
+        <label for="nav-toggle" class="hamburger">☰</label>
+        <input type="checkbox" id="nav-toggle" class="nav-toggle">
+        
+        <div class="dropdown">
+            <div class="nav-links">
+              <a href="index.html">Home</a>
+              <a href="syllabus.html">Syllabus</a>
+              <a href="assignments.html">Assignments</a>
+              <a href="labs.html">Labs</a>
+              <a href="notes.html">Lecture Notes</a>
+              <a href="tests.html">Tests</a>
+              <a href="https://piazza.com/class/m5fmz9kzjo83yk">Piazza</a>
+              <a href="https://markus2.utsc.utoronto.ca/">Markus</a>
+              <a href="calendar.html">Calendar</a>
+              <a href="feedback.html" class="active">Feedback</a>
+              <a href="news.html">News</a>
+              <a href="team.html">Course Team</a>
+            </div>
+        </div>
+        
+        <h2>CSCB20</h2>
+        
+        
+        
+        <input type="checkbox" id="darkmode-toggle">
+        <label for="darkmode-toggle" class="darkmode-toggle">
+            <img src="../static/images/sun.png" alt="sun" class="sun">
+            <img src="../static/images/moon.png" alt="moon" class="moon">
+        </label>
+        
+      </nav>
+
+      <div class="container">
+          <div class="form-header">
+                <h1>Anonymous Feedback Form</h1>
+          </div>
+          <div class="form-body">
+
+            <form>
+                <div class="form-content">
+                    <label class="question">How was your experience with the course?</label>
+                    <div class="options">
+                        <label for="option1">
+                            <input type="radio" id="option1" name="experience">
+                            <span>Enjoying it a lot</span>
+                        </label>
+                        <label for="option2">
+                            <input type="radio" id="option2" name="experience">
+                            <span>Pretty good</span>
+                        </label>
+                        <label for="option3">
+                            <input type="radio" id="option3" name="experience">
+                            <span>Neutral</span>
+                        </label>
+                        <label for="option4">
+                            <input type="radio" id="option4" name="experience">
+                            <span>Could be better</span>
+                        </label>
+                        <label for="option5">
+                            <input type="radio" id="option5" name="experience">
+                            <span>Hate it</span>
+                        </label>
+                    </div>
+                </div>
+    
+                <div class="form-content">
+                    <label class="question">How do you find the difficulty of the course?</label>
+                    <div class="options">
+                        <label for="opt1">
+                            <input type="radio" id="opt1" name="difficulty">
+                            <span>Easy</span>
+                        </label>
+                        <label for="opt2">
+                            <input type="radio" id="opt2" name="difficulty">
+                            <span>A bit easy</span>
+                        </label>
+                        <label for="opt3">
+                            <input type="radio" id="opt3" name="difficulty">
+                            <span>Fair</span>
+                        </label>
+                        <label for="opt4">
+                            <input type="radio" id="opt4" name="difficulty">
+                            <span>A bit hard</span>
+                        </label>
+                        <label for="opt5">
+                            <input type="radio" id="opt5" name="difficulty">
+                            <span>Hard</span>
+                        </label>
+                    </div>
+                </div>
+    
+                <div class="form-content">
+                    <label class="question">Additional Comments:</label>
+                    <textarea name="comments" id="comments" cols="30" rows="10"></textarea>
+                </div>
+    
+                <div class="form-content">
+                    <div class="submit"><button type="reset">Submit</button></div>
+                </div>
+            </form>
+
+          </div>
+      </div>
+      <footer>
+        <div class="footerContent">
+          <p>Site Design by Asad Mirza and Moiz Mohammed</p>
+          <p>Visit the <a href="https://www.utsc.utoronto.ca/cms/">Faculty of Computer Science</a></p>
+        </div>
+      </footer>
+</html>

@@ -1,0 +1,185 @@
+@import url('https://fonts.googleapis.com/css2?family=Oxanium:wght@200..800&display=swap');
+
+.topnav{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #64A6CF;
+    padding: 10px;
+    position: sticky;
+    gap: 30px;
+    max-width: 100%;
+    top: 0;
+    z-index: 1000;
+    transition: background-color 0.3s linear
+}
+  
+.topnav h2{
+    margin: 0;
+    color: white;
+    font-family: Oxanium;
+    font-size: 35px;
+    font-style: normal;
+    font-weight: 400;
+}
+
+.dropdown{
+    position: relative;
+}
+
+.nav-links {
+    position: absolute;
+    background-color: #64A6CF;
+    border-radius: 5px;
+    top:-33px;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 5px;
+    width: 150px;
+}
+
+.nav-links a {
+    display: none;
+    color: white;
+    text-decoration: none;
+    padding: 10px;
+    font-size: 20px;
+    border-radius: 5px;
+    margin: 5px;
+    text-align: center;
+}
+
+.nav-links a.active {
+    display: block;
+    background-color: #4d6c8d;
+    border-radius: 5px;
+    position: relative;
+}
+
+.nav-links:hover a {
+    display: block;
+}
+
+.nav-links a:hover {
+    background-color: #4690b3;
+}
+
+
+.darkmode-toggle{
+    width: 85px;
+    height: 45px;
+    position: relative;
+    display: block;
+    background-color: #3F3F3F;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.darkmode-toggle::after{
+    content: "";
+    position: absolute;
+    width: 35px;
+    height: 35px;
+    background-color: #C3D5DB;
+    border-radius: 20px;
+    top: 5px;
+    left: 5px;
+}
+
+#darkmode-toggle{
+    display: none;
+    width: 0;
+    height: 0;
+}
+
+#darkmode-toggle:checked +.darkmode-toggle{
+    background-color: #EDEDED;
+}
+
+#darkmode-toggle:checked + label.darkmode-toggle::after{
+    left: 80px;
+    transform: translateX(-100%);
+    background-color: #4B565A;
+}
+
+.darkmode-toggle img{
+    position: absolute;
+    width: 25px;
+    top: 10px;
+    z-index: 100;
+}
+
+.darkmode-toggle img.sun{
+    left: 10px;
+    transition: 0.3s;
+}
+
+.darkmode-toggle img.moon{
+    left: 48px;
+    transition: 0.3s;
+}
+
+.topnav:has(> #darkmode-toggle:checked) {
+    background-color: #04446B;
+}
+
+body:has(.topnav > #darkmode-toggle:checked) {
+    background-color: #2C2C2C;
+}
+
+.dropdown:has(~ #darkmode-toggle:checked) .nav-links{
+    background-color: #04446B;
+}
+
+.hamburger{
+    display: none;
+    font-size: 24px;
+    color: white;
+    margin-right: 0;
+    cursor: pointer;
+}
+
+.nav-toggle{
+    display: none;
+}
+
+@media (max-width: 768px){
+    .topnav h2{
+        font-size: 25px;
+    }
+
+    .hamburger{
+        display: block;
+    }
+
+    .nav-links{
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        position: static;
+        top: 50px;
+        width: 100%;
+        background-color: #64A6CF;
+        padding-bottom: 10px 0;
+    }
+
+    .nav-links a{
+        display: block;
+        margin: 5px 0;
+    }
+
+    .nav-toggle:checked + .dropdown .nav-links{
+        display: flex;
+    }
+
+    .nav-toggle:checked ~ h2{
+        display: none;
+    }
+
+    .nav-toggle:checked ~ .darkmode-toggle{
+        display: none;
+    }
+}
