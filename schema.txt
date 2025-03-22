@@ -1,23 +1,43 @@
-users(user_id:int, email: text, password: text, fname: text, lname: text, account_type: text)
+users(user_id: int, email: text, password: text, fname: text, lname: text, account_type: text)
 primary key: user_id
+constraints:
+  - email must be unique
+  - account_type must be one of ('instructor', 'student')
 
-courses(course_id: string, course_name:text)
+courses(course_id: int, course_name: text)
 primary key: course_id
 
-coursework(coursework_id: int, coursework_name: string, course_id: int)
+coursework(coursework_id: int, coursework_name: text, coursework_type: text, course_id: int, due_date: date)
 primary key: coursework_id
-foreign key: course_id
+foreign key: course_id → courses.course_id
 
-instructor_courseworks(instructor_coursework_id, coursework_id: int, instructor_id: int)
-primary key: instructor_coursework_id, foreign key: instructor_id, coursework_id
+instructor_coursework(instructor_coursework_id: int, coursework_id: int, instructor_id: int)
+primary key: instructor_coursework_id
+foreign keys:
+  - coursework_id → coursework.coursework_id
+  - instructor_id → users.user_id
 
-student_enrollments(instructor_coursework_id: int, student_id, mark: int)
-primary key/foreign key: coursework_id and student_id
+assigned_coursework(coursework_id: int, student_id: int, instructor_id: int, submission_date: date, mark: int)
+primary key: (coursework_id, student_id)
+foreign keys:
+  - coursework_id → instructor_coursework.instructor_coursework_id
+  - student_id → users.user_id
+  - instructor_id → users.user_id
 
-remark_requests(remark_request_id: int, instructor_coursework_id: int, student_id: int, reason: string, status: string)
+remark_requests(remark_request_id: int, coursework_id: int, student_id: int, reason: text, status: text)
 primary key: remark_request_id
-foreign key: coursework_id and student_id
+foreign keys:
+  - coursework_id → instructor_coursework.instructor_coursework_id
+  - student_id → users.user_id
+constraints:
+  - status must be one of ('Pending', 'Approved', 'Rejected')
 
-feedback(feedback_id, teaching_likes: text, teaching_recommendations: text, lab_likes: text, lab_recommendations: text, instructor_id: int)
+feedback(feedback_id: int, teaching_likes: text, teaching_recommendations: text, lab_likes: text, lab_recommendations: text, instructor_id: int)
 primary key: feedback_id
-foreign key: instructor_id
+foreign key: instructor_id → users.user_id
+
+users_courses(user_id: int, course_id: int)
+primary key: (user_id, course_id)
+foreign keys:
+  - user_id → users.user_id
+  - course_id → courses.course_id
