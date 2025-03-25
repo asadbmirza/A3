@@ -1,0 +1,89 @@
+@import url('https://fonts.googleapis.com/css2?family=Marmelad&display=swap');
+
+body {
+    background-color: #0b2635;
+    height: 100vh;
+    color: white;
+    margin: 0;
+    font-family: Marmelad, Arial, Helvetica, sans-serif;
+}
+
+a {
+    text-decoration: none;
+    color: inherit; 
+}
+
+.flash.error {
+    color: red;
+}
+
+.authenticateOptions {
+    background-color: black;
+    padding: 10px;
+    box-sizing: border-box;
+    border-radius: 8px;
+
+}
+
+#signIn, #register {
+    padding: 8px;
+}
+
+#signIn:hover, #register:hover, .active {
+    background-color: #2C2C2C;
+    border-radius: 8px;
+
+}
+
+.authenticateButton {
+    color: inherit; 
+    font-family: inherit;
+    background-color: black;
+    border: white;
+    border-radius: 8px;
+    padding: 10px;
+    font-size: 24px;
+}
+
+.authenticateButton:hover {
+    background-color: gray;
+}
+
+.title {
+    text-align: center;
+}
+
+.formContainer, .authenticateForm {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+}
+
+.authenticateForm {
+    background-color: #2C2C2C;
+    padding: 16px;
+    border-radius: 8px;
+    border: 1px solid rgb(141, 141, 141);
+}
+
+.authenticateContent {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+.formGroup {
+    display: flex;
+    flex-direction: column;
+}
+
+input, select {
+    height: 32px;
+    font-size: 16px;
+}
+
+
+

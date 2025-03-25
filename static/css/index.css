@@ -8,6 +8,10 @@ body {
     transition: background-color 0.3s linear
 }
 
+.highlight {
+    color: #416b85;
+}
+
 .container{
     display: grid;
     grid-template-columns: 1fr 1fr;
