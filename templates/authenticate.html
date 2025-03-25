@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign-in/Register</title>
+    <script src="../static/js/authenticate.js" defer></script>
+    <link rel="stylesheet" href="../static/css/authenticate.css">
+</head>
+<body>
+    <h1 class="title">CSCB20 Course Website</h1>
+    <div class="formContainer">
+        <form action="/{{ form_action }}" method="post" class="authenticateForm">
+            <div>
+                <div class="authenticateOptions">
+                    <a id="signIn" {% if form_action == 'sign-in' %} class="active" {% endif %} href="{{ url_for('signIn') }}">Sign-in</a>
+                    <a id="register" {% if form_action == 'register' %} class="active" {% endif %} href="{{ url_for('register') }}">Create Account</a>
+                </div>
+            </div>
+            <div class="authenticateContent">
+                <div class="formGroup">
+                    <label for="username">Username: </label>
+                    <input type="text" id="username" name="username" value="{{username}}">
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                        {% if messages %}
+                            {% for category, message in messages %}
+                            <span class="flash {{ category }}">{{ message }}</span>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+                </div>
+                <div class="formGroup">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" value="{{password}}">
+                </div>
+                {% if form_action == "register" %}
+        
+                    <div class="formGroup">
+                        <label for="fname">First Name</label>
+                        <input id="fname" name="fname" type="text" value="{{fname}}">
+                    </div>
+                    <div class="formGroup">
+                        <label for="lname">Last Name</label>
+                        <input id="lname" name="lname" type="text" value="{{lname}}">
+                    </div>
+                    <div class="formGroup">
+                        <label for="accountType">Select Account Type</label>
+                        <select id="accountType" name="accountType">
+                            <option value="Instructor" {% if account_type == "Instructor" %}selected{% endif %}>Instructor</option>
+                            <option value="Student" {% if account_type == "Student" %}selected{% endif %}>Student</option>
+                        </select>
+                    </div>
+                {% endif %}
+            </div>
+            <button type="submit" class="authenticateButton">
+                {% if form_action == "register" %}
+                    Create Account
+                {% else %}
+                    Sign In
+                {% endif %}
+            </button>
+        </form>
+    </div>
+</body>
+</html>
