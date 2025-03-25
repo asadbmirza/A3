@@ -163,5 +163,37 @@ def signIn():
 def home():
     return render_template("index.html")
 
+@app.route("/syllabus")
+def syllabus():
+    return render_template("syllabus.html")
+
+@app.route("/assignments")
+def assignments():
+    return render_template("assignments.html")
+
+@app.route("/labs")
+def labs():
+    return render_template("labs.html")
+
+@app.route("/tests")
+def tests():
+    return render_template("tests.html")
+
+@app.route("/calander")
+def calander():
+    return render_template("calander.html")
+
+@app.route("/feedback")
+def feedback():
+    return render_template("feedback.html")
+
+@app.route("/news")
+def news():
+    return render_template("news.html")
+
+@app.route("/team")
+def team():
+    return render_template("team.html")
+
 if __name__ == "__main__":
     app.run(debug=True)
