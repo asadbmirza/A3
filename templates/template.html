@@ -6,6 +6,8 @@
     <title>CSCB20</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/navbar.css') }}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="{{ url_for('static', filename='js/navigation.js') }}"></script>
 </head>
 <body>
     <nav class="topnav">
@@ -14,18 +16,18 @@
         
         <div class="dropdown">
             <div class="nav-links">
-              <a href="index.html" class="active">Home</a>
-              <a href="syllabus.html">Syllabus</a>
-              <a href="assignments.html">Assignments</a>
-              <a href="labs.html">Labs</a>
-              <a href="notes.html">Lecture Notes</a>
-              <a href="tests.html">Tests</a>
+              <a href="{{url_for('home')}}" class="active">Home</a>
+              <a href="{{url_for('syllabus')}}">Syllabus</a>
+              <a href="{{url_for('assignments')}}">Assignments</a>
+              <a href="{{url_for('labs')}}">Labs</a>
+              <a href="{{url_for('notes')}}">Lecture Notes</a>
+              <a href="{{url_for('tests')}}">Tests</a>
               <a href="https://piazza.com/class/m5fmz9kzjo83yk">Piazza</a>
               <a href="https://markus2.utsc.utoronto.ca/">Markus</a>
-              <a href="calendar.html">Calendar</a>
-              <a href="feedback.html">Feedback</a>
-              <a href="news.html">News</a>
-              <a href="team.html">Course Team</a>
+              <a href="{{url_for('calander')}}">Calendar</a>
+              <a href="{{url_for('feedback')}}">Feedback</a>
+              <a href="{{url_for('news')}}">News</a>
+              <a href="{{url_for('team')}}">Course Team</a>
             </div>
         </div>
         
@@ -41,8 +43,10 @@
         
       </nav>
 
-      {% block content %}
-      {% endblock %}
+      <div id="block-content">
+          {% block content %}
+          {% endblock %}
+      </div>
 
       <footer>
         <div class="footerContent">
