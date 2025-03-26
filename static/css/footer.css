@@ -1,3 +1,7 @@
+#block-content {
+    flex: 1;
+}
+
 footer {
     width: 100%;
     background-color: #335468;
@@ -17,4 +21,8 @@ footer {
 
 .footerContent a:hover {
     color: orange
+}
+
+footer.dark-mode{
+    background-color: #0b2635;
 }

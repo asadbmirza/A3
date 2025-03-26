@@ -122,16 +122,16 @@
     transition: 0.3s;
 }
 
-.topnav:has(> #darkmode-toggle:checked) {
+nav.dark-mode {
     background-color: #04446B;
 }
 
-body:has(.topnav > #darkmode-toggle:checked) {
+nav.dark-mode .nav-links{
+    background-color: #04446B;
+}
+
+body.dark-mode {
     background-color: #2C2C2C;
-}
-
-.dropdown:has(~ #darkmode-toggle:checked) .nav-links{
-    background-color: #04446B;
 }
 
 .hamburger{
