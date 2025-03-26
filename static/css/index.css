@@ -140,36 +140,32 @@ span{
     color: #416b85;
 }
 
-.topnav:has(> #darkmode-toggle:checked) + .container{
+body.dark-mode .container{
     color: white;
 }
 
-.topnav:has(> #darkmode-toggle:checked) + .container a{
+body.dark-mode .container a{
     color: white;
 }
 
-.topnav:has(> #darkmode-toggle:checked) + .container a:hover{
+body.dark-mode .container a:hover{
     color: #416b85;
 }
 
-.topnav:has(> #darkmode-toggle:checked) + .container .announcements{
+body.dark-mode .container .announcements{
     border-color: white;
 }
 
-.topnav:has(> #darkmode-toggle:checked) + .container .contact{
+body.dark-mode .container .contact{
     border-color: white;
 }
 
-.topnav:has(> #darkmode-toggle:checked) + .container .deadlines{
+body.dark-mode .container .deadlines{
     border-color: white;
 }
 
-.topnav:has(> #darkmode-toggle:checked) + .container .contact img{
+body.dark-mode .container .contact img{
     border-color: white;
-}
-
-.topnav:has(> #darkmode-toggle:checked) ~ footer {
-    background-color: #0b2635;
 }
 
 @media (max-width: 768px){

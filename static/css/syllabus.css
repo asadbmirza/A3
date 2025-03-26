@@ -65,43 +65,28 @@ span{
     color: #000000;
 }
 
-.topnav:has(> #darkmode-toggle:checked) + .container .content h2{
+body.dark-mode .container .content h2{
     color: white;
 }
 
-.topnav:has(> #darkmode-toggle:checked) + .container .content p{
+body.dark-mode .container .content{
+    border-color: white;
+}
+
+body.dark-mode .container .content p{
     color: white;
 }
 
-.topnav:has(> #darkmode-toggle:checked) + .container .content li{
+body.dark-mode .container .content li{
     color: white;
 }
 
-.topnav:has(> #darkmode-toggle:checked) + .container .content h3{
+body.dark-mode .container .content h3{
     color: white;
 }
 
-.topnav:has(> #darkmode-toggle:checked) + .container .content a{
+body.dark-mode .container .content a{
     color: white;
-}
-
-footer {
-    width: 100%;
-    background-color: #335468;
-    display: flex;
-    justify-content: center;
-}
-.footerContent {
-    font-family: Marmelad, Arial, Helvetica, sans-serif;
-    text-align: center;
-    color: white;
-}
-.footerContent a {
-    color: gold
-}
-
-.topnav:has(> #darkmode-toggle:checked) ~ footer {
-    background-color: #0b2635;
 }
 
 @media (max-width: 768px){

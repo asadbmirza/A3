@@ -4,44 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Assignments</title>
-    <link rel="stylesheet" href="../static/css/dropdownpage.css">
-    <link rel="stylesheet" href="../static/css/navbar.css">
-    <link rel="stylesheet" href="../static/css/index.css">
-    <link rel="stylesheet" href="../static/css/footer.css">
-
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dropdownpage.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
 </head>
 <body>
-    <nav class="topnav">
-        <label for="nav-toggle" class="hamburger">☰</label>
-        <input type="checkbox" id="nav-toggle" class="nav-toggle">
-        
-        <div class="dropdown">
-            <div class="nav-links">
-                <a href="index.html">Home</a>
-                <a href="syllabus.html">Syllabus</a>
-                <a href="assignments.html" class="active">Assignments</a>
-                <a href="labs.html">Labs</a>
-                <a href="notes.html">Lecture Notes</a>
-                <a href="tests.html">Tests</a>
-                <a href="https://piazza.com/class/m5fmz9kzjo83yk">Piazza</a>
-                <a href="https://markus2.utsc.utoronto.ca/">Markus</a>
-                <a href="calendar.html">Calendar</a>
-                <a href="feedback.html">Feedback</a>
-                <a href="news.html">News</a>
-                <a href="team.html">Course Team</a>
-            </div>
-        </div>
-
-        <h2>CSCB20</h2>
-        
-        
-        
-        <input type="checkbox" id="darkmode-toggle">
-        <label for="darkmode-toggle" class="darkmode-toggle">
-            <img src="../static/images/sun.png" alt="sun" class="sun">
-            <img src="../static/images/moon.png" alt="moon" class="moon">
-        </label>
-    </nav>
+    {% extends "template.html" %}
+    {% block content %}
     <div class="content">
         <ul class="dropDownLayout">
             <li class="dropDownBox">
@@ -51,13 +19,13 @@
                     <h1>Upcoming Assignments</h1>
                 </label>
                 <div class="dropDownBody grid">
-                    <a href="dummy.pdf"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>dummy.pdf</title><path d="M8,12H16V14H8V12M10,20H6V4H13V9H18V12.1L20,10.1V8L14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H10V20M8,18H12.1L13,17.1V16H8V18M20.2,13C20.3,13 20.5,13.1 20.6,13.2L21.9,14.5C22.1,14.7 22.1,15.1 21.9,15.3L20.9,16.3L18.8,14.2L19.8,13.2C19.9,13.1 20,13 20.2,13M20.2,16.9L14.1,23H12V20.9L18.1,14.8L20.2,16.9Z" /></svg></a>
-                    <h2><a href="dummy.pdf">Assignment 2</a></h2>
+                    <a href="{{url_for('static', filename='dummy.pdf')}}"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>dummy.pdf</title><path d="M8,12H16V14H8V12M10,20H6V4H13V9H18V12.1L20,10.1V8L14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H10V20M8,18H12.1L13,17.1V16H8V18M20.2,13C20.3,13 20.5,13.1 20.6,13.2L21.9,14.5C22.1,14.7 22.1,15.1 21.9,15.3L20.9,16.3L18.8,14.2L19.8,13.2C19.9,13.1 20,13 20.2,13M20.2,16.9L14.1,23H12V20.9L18.1,14.8L20.2,16.9Z" /></svg></a>
+                    <h2><a href="{{url_for('static', filename='dummy.pdf')}}">Assignment 2</a></h2>
                     <h3>Due Mar 12, 2025 at 11:59 pm</h3>
                 </div>
                 <div class="dropDownBody grid">
-                    <a href="dummy.pdf"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>dummy.pdf</title><path d="M8,12H16V14H8V12M10,20H6V4H13V9H18V12.1L20,10.1V8L14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H10V20M8,18H12.1L13,17.1V16H8V18M20.2,13C20.3,13 20.5,13.1 20.6,13.2L21.9,14.5C22.1,14.7 22.1,15.1 21.9,15.3L20.9,16.3L18.8,14.2L19.8,13.2C19.9,13.1 20,13 20.2,13M20.2,16.9L14.1,23H12V20.9L18.1,14.8L20.2,16.9Z" /></svg></a>
-                    <h2><a href="dummy.pdf">Assignment 3</a></h2>
+                    <a href="{{url_for('static', filename='dummy.pdf')}}"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>dummy.pdf</title><path d="M8,12H16V14H8V12M10,20H6V4H13V9H18V12.1L20,10.1V8L14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H10V20M8,18H12.1L13,17.1V16H8V18M20.2,13C20.3,13 20.5,13.1 20.6,13.2L21.9,14.5C22.1,14.7 22.1,15.1 21.9,15.3L20.9,16.3L18.8,14.2L19.8,13.2C19.9,13.1 20,13 20.2,13M20.2,16.9L14.1,23H12V20.9L18.1,14.8L20.2,16.9Z" /></svg></a>
+                    <h2><a href="{{url_for('static', filename='dummy.pdf')}}">Assignment 3</a></h2>
                     <h3>Due TBD</h3>
                 </div>
             </li>
@@ -68,18 +36,13 @@
                     <h1>Past Assignments</h1>
                 </label>
                 <div class="dropDownBody grid">
-                    <a href="dummy.pdf"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>dummy.pdf</title><path d="M8,12H16V14H8V12M10,20H6V4H13V9H18V12.1L20,10.1V8L14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H10V20M8,18H12.1L13,17.1V16H8V18M20.2,13C20.3,13 20.5,13.1 20.6,13.2L21.9,14.5C22.1,14.7 22.1,15.1 21.9,15.3L20.9,16.3L18.8,14.2L19.8,13.2C19.9,13.1 20,13 20.2,13M20.2,16.9L14.1,23H12V20.9L18.1,14.8L20.2,16.9Z" /></svg></a>
-                    <h2><a href="dummy.pdf">Assignment 1</a></h2>
+                    <a href="{{url_for('static', filename='dummy.pdf')}}"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>dummy.pdf</title><path d="M8,12H16V14H8V12M10,20H6V4H13V9H18V12.1L20,10.1V8L14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H10V20M8,18H12.1L13,17.1V16H8V18M20.2,13C20.3,13 20.5,13.1 20.6,13.2L21.9,14.5C22.1,14.7 22.1,15.1 21.9,15.3L20.9,16.3L18.8,14.2L19.8,13.2C19.9,13.1 20,13 20.2,13M20.2,16.9L14.1,23H12V20.9L18.1,14.8L20.2,16.9Z" /></svg></a>
+                    <h2><a href="{{url_for('static', filename='dummy.pdf')}}">Assignment 1</a></h2>
                     <h3>Due Feb 11, 2025 at 11:59 pm</h3>
                 </div>
             </li>
         </ul>
     </div>
-    <footer>
-        <div class="footerContent">
-          <p>Site Design by Asad Mirza and Moiz Mohammed</p>
-          <p>Visit the <a href="https://www.utsc.utoronto.ca/cms/">Faculty of Computer Science</a></p>
-        </div>
-      </footer>
+    {% endblock %}
 </body>
 </html>

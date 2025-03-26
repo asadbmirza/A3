@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSCB20</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/navbar.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css') }}">
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="{{ url_for('static', filename='js/navigation.js') }}"></script>
+</head>
+<body>
+    <nav class="topnav">
+        <label for="nav-toggle" class="hamburger">☰</label>
+        <input type="checkbox" id="nav-toggle" class="nav-toggle">
+        
+        <div class="dropdown">
+            <div class="nav-links">
+              <a href="{{url_for('home')}}" class="active">Home</a>
+              <a href="{{url_for('syllabus')}}">Syllabus</a>
+              <a href="{{url_for('assignments')}}">Assignments</a>
+              <a href="{{url_for('labs')}}">Labs</a>
+              <a href="{{url_for('notes')}}">Lecture Notes</a>
+              <a href="{{url_for('tests')}}">Tests</a>
+              <a href="https://piazza.com/class/m5fmz9kzjo83yk">Piazza</a>
+              <a href="https://markus2.utsc.utoronto.ca/">Markus</a>
+              <a href="{{url_for('calender')}}">Calendar</a>
+              <a href="{{url_for('feedback')}}">Feedback</a>
+              <a href="{{url_for('news')}}">News</a>
+              <a href="{{url_for('team')}}">Course Team</a>
+            </div>
+        </div>
+        
+        <h2>CSCB20</h2>
+        
+        
+        
+        <input type="checkbox" id="darkmode-toggle">
+        <label for="darkmode-toggle" class="darkmode-toggle">
+            <img src="{{url_for('static', filename='images/sun.png')}}" alt="sun" class="sun">
+            <img src="{{url_for('static', filename='images/moon.png')}}" alt="moon" class="moon">
+        </label>
+        
+
+        <a href="{{ url_for('signOut') }}" class="logout-btn">Sign Out</a>
+      </nav>
+
+      <div id="block-content">
+          {% block content %}
+          {% endblock %}
+      </div>
+
+      <footer>
+        <div class="footerContent">
+          <p>Site Design by Asad Mirza and Moiz Mohammed</p>
+          <p>Visit the <a href="https://www.utsc.utoronto.ca/cms/">Faculty of Computer Science</a></p>
+        </div>
+      </footer>
+</body>
+</html>

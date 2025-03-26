@@ -77,8 +77,8 @@ users_courses = db.Table(
     db.Column("course_id", db.Integer, db.ForeignKey("courses.course_id"), primary_key=True)
 )
 
-# with app.app_context():
-#     db.create_all()
+with app.app_context():
+    db.create_all()
 
 
 def authenticate(user: Users):
@@ -157,11 +157,51 @@ def signIn():
             db.session.rollback()
 
             return str(e), 500
-        
+
+@app.route("/sign-out")
+def signOut():
+    session.clear()
+    return redirect(url_for("signIn"))
 
 @app.route("/")
 def home():
     return render_template("index.html")
+
+@app.route("/syllabus")
+def syllabus():
+    return render_template("syllabus.html")
+
+@app.route("/assignments")
+def assignments():
+    return render_template("assignments.html")
+
+@app.route("/labs")
+def labs():
+    return render_template("labs.html")
+
+@app.route("/notes")
+def notes():
+    return render_template("notes.html")
+
+@app.route("/tests")
+def tests():
+    return render_template("tests.html")
+
+@app.route("/calender")
+def calender():
+    return render_template("calendar.html")
+
+@app.route("/feedback")
+def feedback():
+    return render_template("feedback.html")
+
+@app.route("/news")
+def news():
+    return render_template("news.html")
+
+@app.route("/team")
+def team():
+    return render_template("team.html")
 
 if __name__ == "__main__":
     app.run(debug=True)

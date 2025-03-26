@@ -51,6 +51,23 @@
     text-align: center;
 }
 
+
+
+.logout-btn{
+    color: white;
+    text-decoration: none;
+    padding: 10px;
+    font-size: 20px;
+    border-radius: 5px;
+    margin: 5px;
+    text-align: center;
+    background-color: #203650;
+}
+
+.logout-btn:hover{
+    background-color: #4690b3;
+}
+
 .nav-links a.active {
     display: block;
     background-color: #4d6c8d;
@@ -65,7 +82,6 @@
 .nav-links a:hover {
     background-color: #4690b3;
 }
-
 
 .darkmode-toggle{
     width: 85px;
@@ -122,16 +138,16 @@
     transition: 0.3s;
 }
 
-.topnav:has(> #darkmode-toggle:checked) {
+nav.dark-mode {
     background-color: #04446B;
 }
 
-body:has(.topnav > #darkmode-toggle:checked) {
+nav.dark-mode .nav-links{
+    background-color: #04446B;
+}
+
+body.dark-mode {
     background-color: #2C2C2C;
-}
-
-.dropdown:has(~ #darkmode-toggle:checked) .nav-links{
-    background-color: #04446B;
 }
 
 .hamburger{
@@ -153,6 +169,10 @@ body:has(.topnav > #darkmode-toggle:checked) {
 
     .hamburger{
         display: block;
+    }
+
+    .topnav .logout-btn{
+        display: none;
     }
 
     .nav-links{
@@ -181,5 +201,9 @@ body:has(.topnav > #darkmode-toggle:checked) {
 
     .nav-toggle:checked ~ .darkmode-toggle{
         display: none;
+    }
+
+    .nav-toggle:checked ~ .logout-btn{
+        display: block;
     }
 }
