@@ -1,24 +1,39 @@
 $(document).ready(function() {
-    $('.nav-link').click(function(e) {
-        e.preventDefault();
-        const url = $(this).attr('href');
-        const target = $(this).data('target');
 
-        $.get(url, function(data) {
-            $('#block-content').html($(data).find('#block-content').html());
-            
-            $('.nav-link').removeClass('active');
+    const currentPath = window.location.pathname;
+
+    $('.nav-links a').each(function() {
+        if ($(this).attr('href') === currentPath) {
             $(this).addClass('active');
-            
-            history.pushState(null, null, url);
-        }).fail(function() {
-            console.error("Error loading page");
-        });
+        } else {
+            $(this).removeClass('active');
+        }
     });
 
-    $(window).on('popstate', function() {
-        $.get(location.pathname, function(data) {
-            $('#block-content').html($(data).find('#block-content').html());
-        });
+    const enableDarkMode = () => {
+        $('body').addClass('dark-mode');
+        $('nav').addClass('dark-mode');
+        $('footer').addClass('dark-mode');
+        localStorage.setItem('darkMode', 'enabled');
+    }
+
+    const disableDarkMode = () => {
+        $('body').removeClass('dark-mode');
+        $('nav').removeClass('dark-mode');
+        $('footer').removeClass('dark-mode');
+        localStorage.setItem('darkMode', 'disabled');
+    }
+
+    if (localStorage.getItem('darkMode') === 'enabled') {
+        enableDarkMode();
+        $('#darkmode-toggle').prop('checked', true);
+    }
+
+    $('#darkmode-toggle').click(function() {
+        if ($('body').hasClass('dark-mode')) {
+            disableDarkMode();
+        } else {
+            enableDarkMode();
+        }
     });
 });
