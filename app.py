@@ -77,8 +77,8 @@ users_courses = db.Table(
     db.Column("course_id", db.Integer, db.ForeignKey("courses.course_id"), primary_key=True)
 )
 
-# with app.app_context():
-#     db.create_all()
+with app.app_context():
+    db.create_all()
 
 
 def authenticate(user: Users):
@@ -175,13 +175,17 @@ def assignments():
 def labs():
     return render_template("labs.html")
 
+@app.route("/notes")
+def notes():
+    return render_template("notes.html")
+
 @app.route("/tests")
 def tests():
     return render_template("tests.html")
 
-@app.route("/calander")
-def calander():
-    return render_template("calander.html")
+@app.route("/calender")
+def calender():
+    return render_template("calendar.html")
 
 @app.route("/feedback")
 def feedback():
