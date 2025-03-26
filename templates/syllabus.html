@@ -4,17 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Syllabus Page</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/navbar.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='footer.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/syllabus.css') }}">
 </head>
 <body>
-    {% extend "template.html" %}
+    {% extends "template.html" %}
     {% block content %}
-      <div class="container">
-          <div class="content">
-            <h2>What you'll learn</h2>
-            <p>Databases:</p>
+    <div class="container">
+        <div class="content">
+        <h2>What you'll learn</h2>
+        <p>Databases:</p>
             <ul>
                 <li>Key terminology and practical applications</li>
                 <li>Creating, querying, and updating databases</li>
@@ -74,7 +72,7 @@
                 <li><span>Be very careful</span> when engaging "tutoring services". In previous years, we had students suspended from the university as a result of submitting work that was done with the "help" of such "tutors". When in doubt whether a tutoring company is offering real teaching or is helping students cheat, do not hesitate to ask your instructor — we are here to help!</li>
             </ul>
         </div>
-      </div>
-      {% endblock %}
+    </div>
+    {% endblock %}
 </body>
 </html>

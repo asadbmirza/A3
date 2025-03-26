@@ -4,14 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Course Team</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/team.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/navbar.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='footer.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='team.css') }}">
-
 </head>
 <body>
-    {% extend "template.html" %}
+    {% extends "template.html" %}
     {% block content %}
     <div class="content">
         <a href="https://www.utsc.utoronto.ca/cms/purva-gawde-0" class="divLink">

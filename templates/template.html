@@ -4,8 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CSCB20</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/navbar.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css') }}">
+    
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="{{ url_for('static', filename='js/navigation.js') }}"></script>
 </head>
@@ -24,7 +25,7 @@
               <a href="{{url_for('tests')}}">Tests</a>
               <a href="https://piazza.com/class/m5fmz9kzjo83yk">Piazza</a>
               <a href="https://markus2.utsc.utoronto.ca/">Markus</a>
-              <a href="{{url_for('calander')}}">Calendar</a>
+              <a href="{{url_for('calender')}}">Calendar</a>
               <a href="{{url_for('feedback')}}">Feedback</a>
               <a href="{{url_for('news')}}">News</a>
               <a href="{{url_for('team')}}">Course Team</a>
@@ -37,8 +38,8 @@
         
         <input type="checkbox" id="darkmode-toggle">
         <label for="darkmode-toggle" class="darkmode-toggle">
-            <img src="../static/images/sun.png" alt="sun" class="sun">
-            <img src="../static/images/moon.png" alt="moon" class="moon">
+            <img src="{{url_for('static', filename='images/sun.png')}}" alt="sun" class="sun">
+            <img src="{{url_for('static', filename='images/moon.png')}}" alt="moon" class="moon">
         </label>
         
       </nav>

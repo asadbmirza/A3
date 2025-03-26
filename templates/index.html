@@ -5,12 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CSCB20 Page</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/navbar.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='footer.css') }}">
 
 </head>
 <body>
-      {% extend "template.html" %}
+      {% extends "template.html" %}
       {% block content %}
       <div class="container">
           <div class="header">
