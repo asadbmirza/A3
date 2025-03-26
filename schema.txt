@@ -11,12 +11,6 @@ coursework(coursework_id: int, coursework_name: text, coursework_type: text, cou
 primary key: coursework_id
 foreign key: course_id → courses.course_id
 
-instructor_coursework(instructor_coursework_id: int, coursework_id: int, instructor_id: int)
-primary key: instructor_coursework_id
-foreign keys:
-  - coursework_id → coursework.coursework_id
-  - instructor_id → users.user_id
-
 assigned_coursework(coursework_id: int, student_id: int, instructor_id: int, submission_date: date, mark: int)
 primary key: (coursework_id, student_id)
 foreign keys:

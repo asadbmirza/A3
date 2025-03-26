@@ -85,6 +85,7 @@ def authenticate(user: Users):
     session["user_id"] = user.user_id
     session["username"] = user.username
     session["fname"] = user.fname
+    session["account_type"] = user.account_type
     return redirect(url_for("home"))
 
 @app.before_request
@@ -148,8 +149,8 @@ def signIn():
             if user and bcrypt.check_password_hash(user.password, password):
                 return authenticate(user)
             else:
+                flash("Username or password is invalid", "error")
                 return render_template("authenticate.html", 
-                                       usernameError="Username or password is invalid", 
                                        form_action="sign-in",
                                        username=username,
                                        password=password), 400
@@ -162,6 +163,7 @@ def signIn():
 @app.route("/")
 def home():
     return render_template("index.html")
+
 
 if __name__ == "__main__":
     app.run(debug=True)
