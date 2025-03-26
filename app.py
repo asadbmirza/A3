@@ -157,7 +157,11 @@ def signIn():
             db.session.rollback()
 
             return str(e), 500
-        
+
+@app.route("/sign-out")
+def signOut():
+    session.clear()
+    return redirect(url_for("signIn"))
 
 @app.route("/")
 def home():
