@@ -78,7 +78,6 @@ h3 {
 .dropDownHeader {
     background-color: #E8E8E8;
     cursor:pointer;
-    transition: background-color 0.15s ease-in-out;
 }
 
 .dropDownBody:hover {
@@ -92,7 +91,6 @@ h3 {
 .dropDownBody {
     border-top: 3px solid black;
     display: none;
-    transition: background-color 0.15s ease-in-out;
 }
 
 .press {

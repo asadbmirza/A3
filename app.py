@@ -187,8 +187,8 @@ def notes():
 def tests():
     return render_template("tests.html")
 
-@app.route("/calender")
-def calender():
+@app.route("/calendar")
+def calendar():
     return render_template("calendar.html")
 
 @app.route("/feedback")

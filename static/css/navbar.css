@@ -11,7 +11,6 @@
     max-width: 100%;
     top: 0;
     z-index: 1000;
-    transition: background-color 0.3s linear
 }
   
 .topnav h2{
@@ -91,7 +90,6 @@
     background-color: #3F3F3F;
     border-radius: 25px;
     cursor: pointer;
-    transition: 0.3s;
 }
 
 .darkmode-toggle::after{
