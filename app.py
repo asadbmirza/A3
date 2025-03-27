@@ -1,8 +1,8 @@
 import datetime
-from flask import Flask, flash, redirect, request, render_template, session, url_for
+from flask import Flask, flash, jsonify, redirect, request, render_template, session, url_for
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import CheckConstraint, Date, ForeignKey, Integer, String, exc, select
-from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
+from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, aliased
 from flask_bcrypt import Bcrypt
 
 class Base(DeclarativeBase):
@@ -30,10 +30,24 @@ class Users(db.Model):
             name="check_account_type"
         ),
     )
+    def to_dict(self):
+        return {
+            "user_id": self.user_id,
+            "username": self.username,
+            "fname": self.fname,
+            "lname": self.lname,
+            "account_type": self.account_type,
+        }
 
 class Courses(db.Model):
     course_id: Mapped[int] = mapped_column(primary_key=True)
     course_name: Mapped[str] = mapped_column(nullable=False, unique=True)
+   
+    def to_dict(self):
+        return {
+            "course_id": self.course_id,
+            "course_name": self.course_name
+        }
 
 class Coursework(db.Model):
     coursework_id: Mapped[int] = mapped_column(primary_key=True)
@@ -42,12 +56,30 @@ class Coursework(db.Model):
     course_id: Mapped[int] = mapped_column(ForeignKey("courses.course_id"), nullable=False)
     due_date: Mapped[datetime.date] = mapped_column(Date)
 
+    def to_dict(self):
+        return {
+            "coursework_id": self.coursework_id,
+            "coursework_name": self.coursework_name,
+            "coursework_type": self.coursework_type,
+            "course_id": self.course_id,
+            "due_date": self.due_date
+        }
+
 class AssignedCoursework(db.Model):
     coursework_id: Mapped[int] = mapped_column(Integer, ForeignKey("coursework.coursework_id"), primary_key=True)
     student_id: Mapped[int] = mapped_column(Integer, ForeignKey("users.user_id"), primary_key=True)
     instructor_id: Mapped[int] = mapped_column(Integer, ForeignKey('users.user_id'))
-    submission_date: Mapped[datetime.date] = mapped_column(Date)
-    mark: Mapped[int] = mapped_column(Integer)
+    submission_date: Mapped[datetime.date] = mapped_column(Date, nullable=True)
+    mark: Mapped[int] = mapped_column(Integer, nullable=True)
+
+    def to_dict(self):
+        return {
+            "coursework_id": self.coursework_id,
+            "student_id": self.student_id,
+            "instructor_id": self.instructor_id,
+            "submission_date": self.submission_date,
+            "mark": self.mark
+        }
 
 class RemarkRequest(db.Model):
     remark_request_id: Mapped[int] = mapped_column(Integer, primary_key=True)
@@ -63,6 +95,15 @@ class RemarkRequest(db.Model):
         ),
     )
 
+    def to_dict(self):
+        return {
+            "remark_request_id": self.remark_request_id,
+            "coursework_id": self.coursework_id,
+            "student_id": self.student_id,
+            "reason": self.reason,
+            "status": self.status
+        }
+
 class Feedback(db.Model):
     feedback_id: Mapped[int] = mapped_column(Integer, primary_key=True)
     teaching_likes: Mapped[str] = mapped_column()
@@ -71,11 +112,24 @@ class Feedback(db.Model):
     lab_recommendations: Mapped[str] = mapped_column()
     instructor_id: Mapped[int] = mapped_column(Integer, ForeignKey("users.user_id"), nullable=False)
 
+    def to_dict(self):
+        return {
+            "feedback_id": self.feedback_id,
+            "teaching_likes": self.teaching_likes,
+            "lab_likes": self.teaching_recommendations,
+            "lab_likes": self.reason,
+            "lab_recommendations": self.lab_recommendations,
+            "instructor_id" : self.instructor_id
+        }
+
 users_courses = db.Table(
     "users_courses",
     db.Column("user_id", db.Integer, db.ForeignKey("users.user_id"), primary_key=True),
     db.Column("course_id", db.Integer, db.ForeignKey("courses.course_id"), primary_key=True)
 )
+
+Instructors = aliased(Users)
+Students = aliased(Users)
 
 # with app.app_context():
 #     db.create_all()
@@ -164,6 +218,52 @@ def signIn():
 def home():
     return render_template("index.html")
 
+
+def getAssignedCoursework():
+    return db.session.execute(
+        select(
+            Students,
+            Coursework.coursework_name,
+            Coursework.coursework_type,
+            Coursework.due_date,
+            AssignedCoursework.mark,
+            AssignedCoursework.submission_date
+        )
+        .join(AssignedCoursework, Coursework.coursework_id == AssignedCoursework.coursework_id)
+        .join(Instructors, Instructors.user_id == AssignedCoursework.instructor_id) 
+        .join(Students, Students.user_id == AssignedCoursework.student_id)
+    ).all()
+
+def formatCoursework(results):
+    grouped = {}
+
+    for student, coursework_name, coursework_type, due_date, mark, submission_date in results:
+        sid = student.user_id
+
+        if sid not in grouped:
+            grouped[sid] = {
+                "student_fname": student.fname,
+                "student_lname": student.lname,
+                "student_username": student.username,
+                "coursework": []
+            }
+
+        grouped[sid]["coursework"].append({
+            "coursework_name": coursework_name,
+            "coursework_type": coursework_type,
+            "due_date": due_date.isoformat(),
+            "mark": mark,
+            "submission_date": submission_date.isoformat() if submission_date else None
+        })
+    return list(grouped.values())
+
+@app.route("/instructor-marks", methods=["GET", "POST"])
+def instructorMarks():
+    if session['account_type'] != "Instructor":
+        return "forbidden"
+    if request.method == "GET":
+        results = getAssignedCoursework()
+        return jsonify(formatCoursework(results))
 
 if __name__ == "__main__":
     app.run(debug=True)
