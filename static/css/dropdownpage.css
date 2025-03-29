@@ -78,7 +78,6 @@ h3 {
 .dropDownHeader {
     background-color: #E8E8E8;
     cursor:pointer;
-    transition: background-color 0.15s ease-in-out;
 }
 
 .dropDownBody:hover {
@@ -92,7 +91,6 @@ h3 {
 .dropDownBody {
     border-top: 3px solid black;
     display: none;
-    transition: background-color 0.15s ease-in-out;
 }
 
 .press {
@@ -107,20 +105,20 @@ h3 {
     transform: rotate(90deg);
 }
 
-.topnav:has(> #darkmode-toggle:checked) + .content .dropDownBody {
+body.dark-mode .content .dropDownBody {
     color: white;
     fill: white;
 }
-.topnav:has(> #darkmode-toggle:checked) + .content a {
+body.dark-mode .content a {
     color: white;
     fill: white;
 }
-.topnav:has(> #darkmode-toggle:checked) + .content .dropDownHeader {
+body.dark-mode .content .dropDownHeader {
     color: white;
     background-color: black;
 }
  
-.topnav:has(> #darkmode-toggle:checked) + .content .dropDownHeader:hover {
+body.dark-mode .content .dropDownHeader:hover {
     color: white;
     background-color: #04446B;
 }

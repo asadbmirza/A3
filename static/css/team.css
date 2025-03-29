@@ -28,10 +28,9 @@ h1, h2, h3, h4, h5 {
     min-height: 600px;
     justify-content: space-between;
     padding: 16px;
-    transition: background-color 0.1s ease-in-out, box-shadow 0.1s ease-in-out;
 }
 
-.topnav:has(> #darkmode-toggle:checked) + .content .memberName {
+body.dark-mode .content .memberName {
     color: white;
 }
 
@@ -40,16 +39,16 @@ h1, h2, h3, h4, h5 {
     box-shadow: 5px 5px 10px 5px;
 }
 
-.topnav:has(> #darkmode-toggle:checked) + .content .memberCard {
+body.dark-mode .content .memberCard {
     border-bottom: 2px solid rgb(255, 255, 255);
 }
 
-.topnav:has(> #darkmode-toggle:checked) + .content .memberCard:hover {
+body.dark-mode .content .memberCard:hover {
     background-color: rgb(0, 9, 29);
     box-shadow: 5px 5px 10px 5px;
 }
 
-.topnav:has(> #darkmode-toggle:checked) + .content .memberCard a {
+body.dark-mode .content .memberCard a {
     color: gold;
 }
 

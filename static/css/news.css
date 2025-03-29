@@ -26,6 +26,6 @@ body{
     text-decoration: underline;
 }
 
-.topnav:has(> #darkmode-toggle:checked) + .container{
+body.dark-mode .container{
     border-color: white;
 }

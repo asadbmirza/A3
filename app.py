@@ -62,7 +62,7 @@ class Coursework(db.Model):
             "coursework_name": self.coursework_name,
             "coursework_type": self.coursework_type,
             "course_id": self.course_id,
-            "due_date": self.due_date
+            "due_date": self.due_date.isoformat()
         }
 
 class AssignedCoursework(db.Model):
@@ -77,7 +77,7 @@ class AssignedCoursework(db.Model):
             "coursework_id": self.coursework_id,
             "student_id": self.student_id,
             "instructor_id": self.instructor_id,
-            "submission_date": self.submission_date,
+            "submission_date": self.submission_date.isoformat(),
             "mark": self.mark
         }
 
@@ -131,8 +131,8 @@ users_courses = db.Table(
 Instructors = aliased(Users)
 Students = aliased(Users)
 
-# with app.app_context():
-#     db.create_all()
+#with app.app_context():
+    #db.create_all()
 
 
 def authenticate(user: Users):
@@ -147,6 +147,10 @@ def require_login():
     public_routes = ['signIn', 'register', 'static']
     if request.endpoint not in public_routes and 'user_id' not in session:
         return redirect(url_for('signIn'))
+    
+@app.route("/")
+def home():
+    return render_template("index.html")
     
 @app.route('/register', methods=["POST", "GET"])
 def register():
@@ -212,20 +216,53 @@ def signIn():
             db.session.rollback()
 
             return str(e), 500
-        
 
-@app.route("/")
-def home():
-    return render_template("index.html")
+@app.route("/sign-out")
+def signOut():
+    session.clear()
+    return redirect(url_for("signIn"))
 
+@app.route("/syllabus")
+def syllabus():
+    return render_template("syllabus.html")
+
+@app.route("/assignments")
+def assignments():
+    return render_template("assignments.html")
+
+@app.route("/labs")
+def labs():
+    return render_template("labs.html")
+
+@app.route("/notes")
+def notes():
+    return render_template("notes.html")
+
+@app.route("/tests")
+def tests():
+    return render_template("tests.html")
+
+@app.route("/calendar")
+def calendar():
+    return render_template("calendar.html")
+
+@app.route("/feedback")
+def feedback():
+    return render_template("feedback.html")
+
+@app.route("/news")
+def news():
+    return render_template("news.html")
+
+@app.route("/team")
+def team():
+    return render_template("team.html")
 
 def getAssignedCoursework():
     return db.session.execute(
         select(
             Students,
-            Coursework.coursework_name,
-            Coursework.coursework_type,
-            Coursework.due_date,
+            Coursework,
             AssignedCoursework.mark,
             AssignedCoursework.submission_date
         )
@@ -237,33 +274,39 @@ def getAssignedCoursework():
 def formatCoursework(results):
     grouped = {}
 
-    for student, coursework_name, coursework_type, due_date, mark, submission_date in results:
-        sid = student.user_id
+    for student, coursework, mark, submission_date in results:
+        cwid = coursework.coursework_id
 
-        if sid not in grouped:
-            grouped[sid] = {
-                "student_fname": student.fname,
-                "student_lname": student.lname,
-                "student_username": student.username,
-                "coursework": []
+        if cwid not in grouped:
+            grouped[cwid] = {
+                **coursework.to_dict(), #Dictionary unpacking to be more DRY
+                "students": []
             }
 
-        grouped[sid]["coursework"].append({
-            "coursework_name": coursework_name,
-            "coursework_type": coursework_type,
-            "due_date": due_date.isoformat(),
+        grouped[cwid]["students"].append({
+            "student_fname": student.fname,
+            "student_lname": student.lname,
+            "student_username": student.username,
             "mark": mark,
             "submission_date": submission_date.isoformat() if submission_date else None
         })
     return list(grouped.values())
 
-@app.route("/instructor-marks", methods=["GET", "POST"])
-def instructorMarks():
+@app.route("/assigned-coursework", methods=["GET", "POST"])
+def assignedCoursework():
     if session['account_type'] != "Instructor":
         return "forbidden"
     if request.method == "GET":
         results = getAssignedCoursework()
         return jsonify(formatCoursework(results))
+    
+@app.route("/marks")
+def marks():
+    if session['account_type'] == "Instructor":
+        return render_template("instructorMarks.html")
+    else:
+        return "hi"
+
 
 if __name__ == "__main__":
     app.run(debug=True)

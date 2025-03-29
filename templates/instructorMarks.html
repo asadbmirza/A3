@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InstructorMarks</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/instructorMarks.css') }}">
+    <script src="{{ url_for('static', filename='js/instructorMarks.js') }}" defer></script>
+</head>
+<body>
+    {% extends "template.html" %}
+    {% block content %}
+    <div class="content">
+        <table>
+            <thead>
+                <tr>
+                    <th>Assignment Name</th>
+                    <th>Type</th>
+                    <th>Due Date</th>
+                    <th class="gradesCol">Grades</th>
+                </tr>
+            </thead>
+            <tbody>
+        
+            </tbody>
+        </table>
+    </div>
+    {% endblock %}
+</body>
+</html>

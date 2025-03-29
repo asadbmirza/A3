@@ -1,9 +1,12 @@
+#block-content {
+    flex: 1;
+}
+
 footer {
     width: 100%;
     background-color: #335468;
     display: flex;
     justify-content: center;
-    transition: background-color 0.3s linear
 }
 .footerContent {
     font-family: Marmelad, Arial, Helvetica, sans-serif;
@@ -12,9 +15,12 @@ footer {
 }
 .footerContent a {
     color: gold;
-    transition: color 0.15s ease-in;
 }
 
 .footerContent a:hover {
     color: orange
+}
+
+footer.dark-mode{
+    background-color: #0b2635;
 }
