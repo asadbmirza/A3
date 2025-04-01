@@ -1,5 +1,5 @@
 import datetime
-from flask import Flask, flash, redirect, request, render_template, session, url_for
+from flask import Flask, flash, redirect, request, render_template, session, url_for, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import CheckConstraint, Date, ForeignKey, Integer, String, exc, select
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
@@ -202,6 +202,50 @@ def news():
 @app.route("/team")
 def team():
     return render_template("team.html")
+
+@app.route("/grades")
+def grades():
+    student_id = session['user_id']
+
+    results = db.session.query(
+        Coursework.coursework_id,
+        Coursework.coursework_name,
+        Coursework.due_date,
+        AssignedCoursework.submission_date,
+        AssignedCoursework.mark,
+        RemarkRequest.status.label('remark_status')
+    ).outerjoin(
+        AssignedCoursework,
+        (AssignedCoursework.coursework_id == Coursework.coursework_id) &
+        (AssignedCoursework.student_id == student_id)
+    ).outerjoin(
+        RemarkRequest,
+        (RemarkRequest.coursework_id == Coursework.coursework_id) &
+        (RemarkRequest.student_id == student_id)
+    ).all()
+
+    return render_template('grades.html', results=results)
+
+@app.route("/request-remark", methods=['POST'])
+def request_remark():
+    coursework_id = request.form["coursework_id"]
+    student_id = session['user_id']
+    reason = request.form["reason"]
+
+    remark_request = RemarkRequest(
+        coursework_id=coursework_id,
+        student_id=student_id,
+        reason=reason,
+        status="Pending"
+    )
+
+    try:
+        db.session.add(remark_request)
+        db.session.commit()
+        return jsonify({"success": True, "message": "Remark request submitted successfully!"})
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"success": False, "message": "Error submitting remark request. Please try again."})
 
 if __name__ == "__main__":
     app.run(debug=True)
