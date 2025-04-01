@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grades</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/grades.css') }}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="{{ url_for('static', filename='js/grades.js') }}"></script>
+</head>
+<body>
+    {% extends "template.html" %}
+    {% block content %}
+    <div class="container">
+        <table class="grades-table">
+            <tr>
+                <th>Name</th>
+                <th>Due</th>
+                <th>Submisson</th>
+                <th>Mark</th>
+                <th>Remark Request</th>
+            </tr>
+
+            {% for i in results %}
+            <tr class="grade-row">
+                <td>{{ i.coursework_name }}</td>
+                <td>{{ i.due_date.strftime('%Y-%m-%d') }}</td>
+        
+                {% if i.submission_date %}
+                    <td>{{ i.submission_date.strftime('%Y-%m-%d') }}</td>
+                    <td>{{ i.mark }}%</td>
+                    <td>
+                        {% if i.remark_status %}
+                            <span class="remark-status">Status: {{ i.remark_status }}</span>
+                        {% else %}
+                            <button class="remark-button" data-coursework-id = "{{i.coursework_id}}">Request Remark</button>
+                        {% endif %}
+                    </td>
+                {% else %}
+                    <td>Not submitted</td>
+                    <td>—</td>
+                    <td>—</td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <div id="remarkModal" class="modal hidden">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Request Remark</h2>
+            <form id="remarkForm">
+                <input type="hidden" name="coursework_id" id="coursework_id">
+                <label for="reason">Reason:</label>
+                <textarea id="reason" name="reason" required placeholder="Please enter a reason"></textarea>
+                <button type="submit">Submit Request</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="message" class="hidden"></div>
+    {% endblock %}
+</body>
+</html>
