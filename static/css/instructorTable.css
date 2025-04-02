@@ -1,0 +1,139 @@
+@import url('https://fonts.googleapis.com/css2?family=Marmelad&display=swap');
+
+.emptyCell {
+    color: red;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #ccc;
+    font-family: Marmelad, Arial, sans-serif;
+    min-height: 300px
+}
+  
+th, td {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+th {
+    background-color: #f2f2f2;
+    white-space: normal;
+    word-wrap: break-word;
+}
+
+tr:nth-child(even) {
+    background-color: beige;      
+}
+
+a {
+    color: blue;
+}
+
+.errorCell {
+    font-weight: bold;
+    color: red;
+}
+
+dialog {
+    border: none;
+    background-color: #f2f2f2;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    font-family: Marmelad, Arial, sans-serif;
+    text-align: center;
+}
+
+.dialogForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.dialogForm > button {
+    font-size: 16px;
+}
+
+#contentHeader {
+    text-align: center;
+    font-family: Marmelad, Arial, sans-serif;
+}
+
+button {
+    background-color: #416b85;
+    border: none;
+    color: white;
+    cursor: pointer;
+    font-family: inherit;
+}
+
+.submitGradeCell > button {
+    color: blue;
+    background-color: transparent;
+    border: none;
+    font-size: 16px;
+    font-family: inherit;
+    font-weight: bold;
+    text-decoration: underline;
+    padding: 0;
+}
+
+.feedbackButton {
+    display: none;
+    font-size: 16px;
+}
+
+
+.feedbackCell:hover .feedbackButton {
+    display: inline-block;
+}
+
+.feedbackCell:hover .feedbackText {
+    display: none;
+}
+
+.rejectButton {
+    background-color: #ff4d4d;
+}
+
+.acceptButton {
+    background-color: #4dff4d;
+}
+
+@media (max-width: 600px) {
+    table {
+        display: flex;
+        flex-direction: column;
+        height: auto;
+    }
+    thead {
+        display: none;
+    }
+    tr {
+        display: block;
+        margin-bottom: 10px;
+        border: 1px solid #0c0b0b;
+        padding: 10px;
+    }
+    td {
+        display: flex;
+        padding: 5px;
+        min-height: 16px;
+        text-align: center;
+        justify-content: center;
+    }
+
+    .feedbackButton {
+        display: block;
+    }
+    .feedbackText {
+        display: none;
+    }
+
+
+
+}

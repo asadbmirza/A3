@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InstructorMarks</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/instructorTable.css') }}">
+    <script type="module" src="{{ url_for('static', filename='js/instructorTable.js') }}" defer></script>
+</head>
+<body>
+    {% extends "template.html" %}
+    {% block content %}
+    <h1 id="contentHeader"></h1>
+    <div class="content">
+        <table>
+            <thead>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+        <dialog>
+            <form method="dialog">
+                <h2>Marks</h2>
+                <label for="marks">Marks:</label>
+                <input type="number" id="marks" name="marks" required>
+                <button type="submit">Submit</button>
+            </form>
+        </dialog>
+    </div>
+    {% endblock %}
+</body>
+</html>

@@ -22,9 +22,9 @@
               <p>Submit anonymous feedback <a href="#"><strong>here</strong></a></p>
             {% elif session['account_type'] == 'Instructor' %}
               <p>Welcome to your dashboard <br/> Instructor <span class="highlight">{{session['fname']}}</span></p>
-              <p>Access your students grades <a href="{{url_for('marks')}}"><strong>here</strong></a></p>
-              <p>Access your remark requests <a href="#"><strong>here</strong></a></p>
-              <p>View anonymous feedback <a href="#"><strong>here</strong></a></p>
+              <p>Access your students grades <a href="{{url_for('instructorMarks')}}"><strong>here</strong></a></p>
+              <p>Access your remark requests <a href="{{url_for('instructorRemarkRequests')}}"><strong>here</strong></a></p>
+              <p>View anonymous feedback <a href="{{url_for('instructorFeedback')}}"><strong>here</strong></a></p>
             {% endif %}
           </div>
     

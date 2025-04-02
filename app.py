@@ -1,139 +1,17 @@
 import datetime
 from flask import Flask, flash, jsonify, redirect, request, render_template, session, url_for
-from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import CheckConstraint, Date, ForeignKey, Integer, String, exc, select
-from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, aliased
-from flask_bcrypt import Bcrypt
-
-class Base(DeclarativeBase):
-    pass
-
-db = SQLAlchemy(model_class=Base)
+from sqlalchemy import  exc, select
+from db import db, bcrypt
+from models import *
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///assignment3.db"
 app.config["SECRET_KEY"] = "0903cf207352dcfe9f33a43f39b4c764b5b656266b4555a7276dac7b3dca926b"
 db.init_app(app)
-bcrypt = Bcrypt(app)
+bcrypt.init_app(app)
 
-class Users(db.Model):
-    user_id: Mapped[int] = mapped_column(primary_key=True)
-    username: Mapped[str] = mapped_column(nullable=False, unique=True)
-    password: Mapped[str] = mapped_column(nullable=False)
-    fname: Mapped[str] = mapped_column(nullable=False)
-    lname: Mapped[str] = mapped_column(nullable=False)
-    account_type: Mapped[str] = mapped_column(nullable=False)
-
-    __table_args__ = (
-        CheckConstraint(
-            "account_type IN ('Instructor', 'Student')",
-            name="check_account_type"
-        ),
-    )
-    def to_dict(self):
-        return {
-            "user_id": self.user_id,
-            "username": self.username,
-            "fname": self.fname,
-            "lname": self.lname,
-            "account_type": self.account_type,
-        }
-
-class Courses(db.Model):
-    course_id: Mapped[int] = mapped_column(primary_key=True)
-    course_name: Mapped[str] = mapped_column(nullable=False, unique=True)
-   
-    def to_dict(self):
-        return {
-            "course_id": self.course_id,
-            "course_name": self.course_name
-        }
-
-class Coursework(db.Model):
-    coursework_id: Mapped[int] = mapped_column(primary_key=True)
-    coursework_name: Mapped[str] = mapped_column(nullable=False)
-    coursework_type: Mapped[str] = mapped_column(nullable=False)
-    course_id: Mapped[int] = mapped_column(ForeignKey("courses.course_id"), nullable=False)
-    due_date: Mapped[datetime.date] = mapped_column(Date)
-
-    def to_dict(self):
-        return {
-            "coursework_id": self.coursework_id,
-            "coursework_name": self.coursework_name,
-            "coursework_type": self.coursework_type,
-            "course_id": self.course_id,
-            "due_date": self.due_date.isoformat()
-        }
-
-class AssignedCoursework(db.Model):
-    coursework_id: Mapped[int] = mapped_column(Integer, ForeignKey("coursework.coursework_id"), primary_key=True)
-    student_id: Mapped[int] = mapped_column(Integer, ForeignKey("users.user_id"), primary_key=True)
-    instructor_id: Mapped[int] = mapped_column(Integer, ForeignKey('users.user_id'))
-    submission_date: Mapped[datetime.date] = mapped_column(Date, nullable=True)
-    mark: Mapped[int] = mapped_column(Integer, nullable=True)
-
-    def to_dict(self):
-        return {
-            "coursework_id": self.coursework_id,
-            "student_id": self.student_id,
-            "instructor_id": self.instructor_id,
-            "submission_date": self.submission_date.isoformat(),
-            "mark": self.mark
-        }
-
-class RemarkRequest(db.Model):
-    remark_request_id: Mapped[int] = mapped_column(Integer, primary_key=True)
-    coursework_id: Mapped[int] = mapped_column(Integer, ForeignKey("coursework.coursework_id"), nullable=False)
-    student_id: Mapped[int] = mapped_column(Integer, ForeignKey("users.user_id"), nullable=False)
-    reason: Mapped[str] = mapped_column(String, nullable=False)
-    status: Mapped[str] = mapped_column(String, nullable=False)
-    
-    __table_args__ = (
-        CheckConstraint(
-            "status IN ('Pending', 'Approved', 'Rejected')",
-            name="check_status"
-        ),
-    )
-
-    def to_dict(self):
-        return {
-            "remark_request_id": self.remark_request_id,
-            "coursework_id": self.coursework_id,
-            "student_id": self.student_id,
-            "reason": self.reason,
-            "status": self.status
-        }
-
-class Feedback(db.Model):
-    feedback_id: Mapped[int] = mapped_column(Integer, primary_key=True)
-    teaching_likes: Mapped[str] = mapped_column()
-    teaching_recommendations: Mapped[str] = mapped_column()
-    lab_likes: Mapped[str] = mapped_column()
-    lab_recommendations: Mapped[str] = mapped_column()
-    instructor_id: Mapped[int] = mapped_column(Integer, ForeignKey("users.user_id"), nullable=False)
-
-    def to_dict(self):
-        return {
-            "feedback_id": self.feedback_id,
-            "teaching_likes": self.teaching_likes,
-            "lab_likes": self.teaching_recommendations,
-            "lab_likes": self.reason,
-            "lab_recommendations": self.lab_recommendations,
-            "instructor_id" : self.instructor_id
-        }
-
-users_courses = db.Table(
-    "users_courses",
-    db.Column("user_id", db.Integer, db.ForeignKey("users.user_id"), primary_key=True),
-    db.Column("course_id", db.Integer, db.ForeignKey("courses.course_id"), primary_key=True)
-)
-
-Instructors = aliased(Users)
-Students = aliased(Users)
-
-#with app.app_context():
-    #db.create_all()
-
+with app.app_context():
+    db.create_all()
 
 def authenticate(user: Users):
     session["user_id"] = user.user_id
@@ -258,54 +136,181 @@ def news():
 def team():
     return render_template("team.html")
 
-def getAssignedCoursework():
-    return db.session.execute(
-        select(
-            Students,
-            Coursework,
-            AssignedCoursework.mark,
-            AssignedCoursework.submission_date
-        )
-        .join(AssignedCoursework, Coursework.coursework_id == AssignedCoursework.coursework_id)
-        .join(Instructors, Instructors.user_id == AssignedCoursework.instructor_id) 
-        .join(Students, Students.user_id == AssignedCoursework.student_id)
-    ).all()
+def getInstructorCoursework():
+    return db.session.query(Coursework).filter(
+        AssignedCoursework.coursework_id == Coursework.coursework_id, 
+        AssignedCoursework.instructor_id == session['user_id']).all()
 
-def formatCoursework(results):
-    grouped = {}
+def getStudentCoursework(coursework_id):
+    return db.session.query(Users, AssignedCoursework.mark, AssignedCoursework.submission_date, Coursework.due_date, Coursework.coursework_name).filter(
+        AssignedCoursework.coursework_id == coursework_id,
+        Coursework.coursework_id == coursework_id, 
+        AssignedCoursework.student_id == Users.user_id,
+        AssignedCoursework.instructor_id == session["user_id"]).all()
 
-    for student, coursework, mark, submission_date in results:
-        cwid = coursework.coursework_id
+@app.route("/api/instructor/marks")
+def assignedCourseworkApi():
+    if session.get('account_type') != "Instructor":
+        return "forbidden"
+    
+    rawResults = getInstructorCoursework()
+    results = []
+    for r in rawResults:
+        coursework = r.to_dict()
+        coursework.pop("course_id")
+        results.append(coursework)
+    
+    return jsonify({"results": results, "class": "Coursework", "header": "Assigned Coursework"})
 
-        if cwid not in grouped:
-            grouped[cwid] = {
-                **coursework.to_dict(), #Dictionary unpacking to be more DRY
-                "students": []
-            }
-
-        grouped[cwid]["students"].append({
-            "student_fname": student.fname,
-            "student_lname": student.lname,
-            "student_username": student.username,
-            "mark": mark,
-            "submission_date": submission_date.isoformat() if submission_date else None
-        })
-    return list(grouped.values())
-
-@app.route("/assigned-coursework", methods=["GET", "POST"])
-def assignedCoursework():
-    if session['account_type'] != "Instructor":
+@app.route("/api/instructor/marks/<int:coursework_id>", methods=["GET", "POST"])
+def instructorMarksApi(coursework_id):
+    if session.get('account_type') != "Instructor":
         return "forbidden"
     if request.method == "GET":
-        results = getAssignedCoursework()
-        return jsonify(formatCoursework(results))
+        rawResults = getStudentCoursework(coursework_id)
+        if len(rawResults) == 0:
+            return jsonify({"error": "No results found"}), 404
+        results = []
+        for student in rawResults:
+            student_format = student[0].to_dict()
+            student_format.pop("account_type")
+            results.append({"user_id": student_format["user_id"],
+                            "username": student_format["username"],
+                            "fname": student_format["fname"],
+                            "lname": student_format["lname"],
+                            "primary_key": "user_id",
+                            "mark": str(student[1]) + "%" if student[1] is not None else None, 
+                            "submission_date": student[2].isoformat() if student[2] is not None else "Not Submitted",
+                            "due_date": student[3].isoformat() if student[3] is not None else None})
+        return jsonify({"results": results, "class": "Students", "header": student[4]})
+    elif request.method == "POST":
+        data = request.get_json()
+        student_id = data.get("student_id")
+        mark = data.get("mark")
+
+        if not student_id or not mark:
+            return jsonify({"error": "Invalid input"}), 400 # Did research on the diff types of http errors
+
+        student_coursework  = db.session.query(AssignedCoursework).join(Users, Users.user_id == AssignedCoursework.student_id).filter(
+            Users.user_id == student_id,
+            AssignedCoursework.coursework_id == coursework_id,
+        ).first()
+        if student_coursework :
+            student_coursework.mark = float(mark)
+            db.session.commit()
+            return jsonify({"success": True}), 200
+        
+        return jsonify({"error": "User not found or role mismatch"}), 404
     
-@app.route("/marks")
-def marks():
-    if session['account_type'] == "Instructor":
-        return render_template("instructorMarks.html")
-    else:
-        return "hi"
+@app.route("/instructor/marks")
+@app.route("/instructor/marks/<int:coursework_id>")
+def instructorMarks(coursework_id = None):
+    if session.get('account_type') != "Instructor":
+        return "forbidden"
+    
+    return render_template("instructorTable.html")    
+
+@app.route("/api/instructor/feedback", methods=["GET", "POST"])
+def instructorFeedbackApi(feedback_id = None):
+    if session.get('account_type') != "Instructor":
+        return "forbidden"
+    
+    if request.method == "GET":
+        results = db.session.query(Feedback).filter(
+            Feedback.instructor_id == session['user_id'],
+        ).all()
+        feedbacks = []
+        for feedback in results:
+            feedback_format = feedback.to_dict()
+            if feedback_format["reviewed"] != 1:
+                feedbacks.append(feedback_format)
+        return jsonify({"results": feedbacks, "class": "Feedback", "header": "Feedback"}) 
+    elif request.method == "POST":
+        data = request.get_json()
+        reviewed = data.get("reviewed")
+        feedback_id = data.get("feedback_id")
+        
+        if not reviewed or not feedback_id:
+            return jsonify({"error": "Invalid input"}), 400
+
+        results = db.session.query(Feedback).filter(
+            Feedback.instructor_id == session['user_id'],
+            Feedback.feedback_id == feedback_id
+        ).first()
+        if results:
+            results.reviewed = reviewed
+            db.session.commit()
+            return jsonify({"success": True}), 200
+        else:
+            return jsonify({"error": "Feedback not found"}), 404
+
+@app.route("/instructor/feedback")
+def instructorFeedback():
+    if session.get('account_type') != "Instructor":
+        return "forbidden"
+    
+    return render_template("instructorTable.html")
+
+@app.route("/api/instructor/remark-requests", methods=["GET", "POST"])
+def instructorRemarkRequestsApi(remark_request_id = None):
+    if session.get('account_type') != "Instructor":
+        return "forbidden"
+    
+    if request.method == "GET":
+        results = db.session.query(RemarkRequest, Users.fname, Users.lname, Coursework.coursework_name, AssignedCoursework.mark).filter(
+            RemarkRequest.coursework_id == AssignedCoursework.coursework_id,
+            AssignedCoursework.instructor_id == session['user_id'],
+            RemarkRequest.student_id == Users.user_id,
+            RemarkRequest.coursework_id == Coursework.coursework_id,
+            AssignedCoursework.student_id == RemarkRequest.student_id,
+        ).distinct().all()
+        requests = []
+        for result in results:
+            print(result)
+            request_format = result[0].to_dict()
+            request_format["student_name"] = result[1] + " " + result[2]
+            request_format["coursework_name"] = result[3]
+            request_format["mark"] = result[4]
+            requests.append(request_format)
+        return jsonify({"results": requests, "class": "RemarkRequest", "header": "Remark Requests"}) 
+    elif request.method == "POST":
+        data = request.get_json()
+        remark_request_id = data.get("remark_request_id")
+        status = data.get("status")
+        updated_mark = data.get("mark")
+        
+        if not remark_request_id or not status:
+            return jsonify({"error": "Invalid input"}), 400
+
+        remark_request = db.session.query(RemarkRequest).filter(
+            RemarkRequest.remark_request_id == remark_request_id
+        ).first()
+
+        if not remark_request:
+            return jsonify({"error": "Remark Request not found"}), 404
+        
+        if status == "Approved":
+            assignment = db.session.query(AssignedCoursework).filter(
+                AssignedCoursework.coursework_id == remark_request.coursework_id,
+                AssignedCoursework.student_id == remark_request.student_id,
+                AssignedCoursework.instructor_id == session['user_id']
+            ).first()
+
+            if not assignment:
+                return jsonify({"error": "Assignment not found"}), 404
+            assignment.mark = updated_mark
+        
+        remark_request.status = status
+        db.session.commit()
+        return jsonify({"success": True}), 200
+
+@app.route("/instructor/remark-requests")
+def instructorRemarkRequests():
+    if session.get('account_type') != "Instructor":
+        return "forbidden"
+    
+    return render_template("instructorTable.html")
+
 
 
 if __name__ == "__main__":
