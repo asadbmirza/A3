@@ -54,11 +54,6 @@ label {
     font-weight: 400;
 }
 
-.options{
-    display: flex;
-    flex-direction: column;
-    margin-top: 10px;
-}
 
 .form-content span{
     font-size: 22px;
@@ -73,6 +68,12 @@ label {
     margin-right: 10px;
     font-size: 18px;
     font-weight: 400;
+}
+
+.question::after{
+    content: "*";
+    color: red;
+    margin-left: 5px;
 }
 
 .submit{
@@ -91,6 +92,27 @@ label {
     width: 300px;
     align-items: center;
     font-family: inherit;
+}
+
+.form-content select{
+    font-size: 18px;
+    padding: 10px;
+}
+
+#message {
+    color: white;
+    padding: 10px;
+    text-align: center;
+    position: fixed;
+    top: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 5px;
+    font-family: Marmelad;
+}
+
+.hidden {
+    display: none;
 }
 
 body.dark-mode .container .form-header{
