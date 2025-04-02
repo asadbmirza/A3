@@ -193,7 +193,32 @@ def calendar():
 
 @app.route("/feedback")
 def feedback():
-    return render_template("feedback.html")
+    instructors = db.session.query(Users).filter(Users.account_type == "Instructor").all()
+    return render_template("feedback.html", instructors=instructors)
+
+@app.route("/submit-feedback", methods=["POST"])
+def submit_feedback():
+    instructor_id = request.form["instructor_id"]
+    teaching_likes = request.form["teaching_likes"]
+    teaching_recommendations = request.form["teaching_recommendations"]
+    lab_likes = request.form["lab_likes"]
+    lab_recommendations = request.form["lab_recommendations"]
+
+    feedback = Feedback(
+        teaching_likes=teaching_likes,
+        teaching_recommendations=teaching_recommendations,
+        lab_likes=lab_likes,
+        lab_recommendations=lab_recommendations,
+        instructor_id=instructor_id
+    )
+
+    try:
+        db.session.add(feedback)
+        db.session.commit()
+        return jsonify({"success": True, "message": "Your feedback has been submitted successfully!"})
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"success": False, "message": "Error submitting feedback. Please try again."})
 
 @app.route("/news")
 def news():
