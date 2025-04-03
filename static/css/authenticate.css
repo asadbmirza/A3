@@ -85,5 +85,15 @@ input, select {
     font-size: 16px;
 }
 
+.nameGroup {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.nameGroup > .formGroup {
+    flex: 1;
+}
+
 
 

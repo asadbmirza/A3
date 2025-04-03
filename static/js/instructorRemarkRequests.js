@@ -2,6 +2,7 @@ const remarkHeader = [
     "Student",
     "Coursework",
     "Reason",
+    "Mark",
     "Status",
     "Approve/Reject"
 ]
@@ -10,8 +11,9 @@ const remarkHash = {
     [remarkHeader[0]]: "student_name",
     [remarkHeader[1]]: "coursework_name",
     [remarkHeader[2]]: "reason",
-    [remarkHeader[3]]: "status",
-    [remarkHeader[4]]: "primary_key"
+    [remarkHeader[3]]: "mark",
+    [remarkHeader[4]]: "status",
+    [remarkHeader[5]]: "primary_key"
 }
 
 const createDialogForm = (row, value, refetch) => {
@@ -46,8 +48,15 @@ const createDialogForm = (row, value, refetch) => {
     div.appendChild(acceptButton);
     div.appendChild(rejectButton);
 
+    const closeButton = document.createElement("button");
+    closeButton.type = "button";
+    closeButton.textContent = "Close";
+    closeButton.addEventListener("click", () => dialog.close());
+    closeButton.classList.add("closeButton");
+
     form.appendChild(input);
     form.appendChild(div);
+    form.appendChild(closeButton);
     dialog.appendChild(form);
     document.body.appendChild(dialog);
     
@@ -62,7 +71,6 @@ const createDialogForm = (row, value, refetch) => {
             alert("Please enter a grade.");
             return;
         }
-        console.log(markValue, row[value])
         const response = await fetch(`/api${window.location.pathname}`, {
             method: "POST",
             headers: {
@@ -72,9 +80,9 @@ const createDialogForm = (row, value, refetch) => {
         });
         if (response.ok) {
             dialog.close();
-            refetch("Remark request accepted successfully.");
+            refetch("Remark request accepted successfully.", true);
         } else {
-            console.error("Error accepting remark request:", response.statusText);
+            refetch("Error accepting remark request:", false);
         }
     });
 
@@ -89,9 +97,9 @@ const createDialogForm = (row, value, refetch) => {
         });
         if (response.ok) {
             dialog.close();
-            refetch("Remark request rejected successfully.");
+            refetch("Remark request rejected successfully.", true);
         } else {
-            console.error("Error rejecting remark request:", response.statusText);
+            refetch("Error rejecting remark request:", false);
         }
     });
 

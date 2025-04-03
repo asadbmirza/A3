@@ -34,14 +34,19 @@
                     <input type="password" id="password" name="password" value="{{password}}">
                 </div>
                 {% if form_action == "register" %}
-        
                     <div class="formGroup">
-                        <label for="fname">First Name</label>
-                        <input id="fname" name="fname" type="text" value="{{fname}}">
+                        <label for="confirmPassword">Confirm Password:</label>
+                        <input type="password" id="confirmPassword" name="password" value="{{password}}">
                     </div>
-                    <div class="formGroup">
-                        <label for="lname">Last Name</label>
-                        <input id="lname" name="lname" type="text" value="{{lname}}">
+                    <div class="nameGroup">
+                        <div class="formGroup">
+                            <label for="fname">First Name</label>
+                            <input id="fname" name="fname" type="text" value="{{fname}}">
+                        </div>
+                        <div class="formGroup">
+                            <label for="lname">Last Name</label>
+                            <input id="lname" name="lname" type="text" value="{{lname}}">
+                        </div>
                     </div>
                     <div class="formGroup">
                         <label for="accountType">Select Account Type</label>

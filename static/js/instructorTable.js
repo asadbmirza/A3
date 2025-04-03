@@ -1,4 +1,4 @@
-import instructorMarks from "./instructorMarks.js";
+import instructorMarks from "./instructorGrades.js";
 import instructorFeedback from "./instructorFeedback.js";
 import instructorRemarkRequests from "./instructorRemarkRequests.js";
 
@@ -6,21 +6,35 @@ const { assignmentsHeader, studentsHeader, loadStudentsCell, submitGradeCell, as
 const { feedbackHeader, feedbackHash, reviewFeedbackCell } = instructorFeedback;
 const { remarkHash, remarkHeader, reviewRemarkRequestCell } = instructorRemarkRequests;
 
+const tbody = document.querySelector("tbody");
+const thead = document.querySelector("thead");
+const contentHeader = document.getElementById("contentHeader");
+const notfication = document.getElementById("message");
+
 const fetchData = async () => {
     const rawData = await fetch(`/api${window.location.pathname}`);
     const data = await rawData.json();
     renderTable(data);
 }
 
-const refetchData = (message) => {
-    alert(message)
-    fetchData()
+const refetchData = (message, success) => {
+    notfication.textContent = message;
+    notfication.classList.remove("hidden");
+    if (success) {
+        notfication.classList.add("successMessage");
+        fetchData()
+    } else {
+        notfication.classList.add("errorMessage");
+    }
+    setTimeout(() => {
+        notfication.classList.add("hidden");
+        notfication.classList.remove("errorMessage");
+        notfication.classList.remove("successMessage");
+        notfication.textContent = "";
+    }, 3000);
 }
 
 document.addEventListener("DOMContentLoaded", fetchData);
-const tbody = document.querySelector("tbody");
-const thead = document.querySelector("thead");
-const contentHeader = document.getElementById("contentHeader");
 
 const headerHash = {
     "Coursework": assignmentsHeader,
@@ -48,7 +62,6 @@ const primaryKeyCellHash = {
 const renderTable = (data) => {
     tbody.innerHTML = '';
     thead.innerHTML = '';
-    console.log(data)
     contentHeader.textContent = data.header
     renderHeader(headerHash[data.class])
     if (data.results.length === 0) {

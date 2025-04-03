@@ -35,8 +35,14 @@ const createDialogForm = (row, value, refetch) => {
     const submitButton = document.createElement("button");
     submitButton.type = "submit";
     submitButton.textContent = "Submit Grade";
+    const closeButton = document.createElement("button");
+    closeButton.type = "button";
+    closeButton.textContent = "Close";
+    closeButton.addEventListener("click", () => dialog.close());
+    closeButton.classList.add("closeButton");
     form.appendChild(input);
     form.appendChild(submitButton);
+    form.appendChild(closeButton);
     dialog.appendChild(form);
     document.body.appendChild(dialog);
 
@@ -60,9 +66,9 @@ const createDialogForm = (row, value, refetch) => {
         });
         if (response.ok) {
             dialog.close();
-            refetch("Mark submitted successfully.");
+            refetch("Mark submitted successfully.", true);
         } else {
-            console.error("Error submitting grade:", response.statusText);
+            refetch("Error submitting mark.", false);
         }
     });
 

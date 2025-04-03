@@ -1,5 +1,6 @@
 const usernameField = document.querySelector('#username');
 const passwordField = document.querySelector('#password');
+const confirmPasswordField = document.querySelector('#confirmPassword');
 const fnameField = document.querySelector('#fname');
 const lnameField = document.querySelector('#lname');
 const accountTypeField = document.querySelector('#accountType');
@@ -62,6 +63,16 @@ const validateRegister = () => {
         error = true;
     } else {
         removeErrorMessage(lnameField);
+    }
+
+    if (!confirmPasswordField.value) {
+        createErrorMessage(confirmPasswordField, 'Confirm password is required.');
+        error = true;
+    } else if (passwordField.value !== confirmPasswordField.value) {
+        createErrorMessage(confirmPasswordField, 'Passwords do not match.');
+        error = true;
+    } else {
+        removeErrorMessage(confirmPasswordField);
     }
 
     return error

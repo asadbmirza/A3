@@ -1,4 +1,3 @@
-import datetime
 from flask import Flask, flash, jsonify, redirect, request, render_template, session, url_for
 from sqlalchemy import  exc, select
 from db import db, bcrypt
@@ -126,7 +125,32 @@ def calendar():
 
 @app.route("/feedback")
 def feedback():
-    return render_template("feedback.html")
+    instructors = db.session.query(Users).filter(Users.account_type == "Instructor").all()
+    return render_template("feedback.html", instructors=instructors)
+
+@app.route("/submit-feedback", methods=["POST"])
+def submit_feedback():
+    instructor_id = request.form["instructor_id"]
+    teaching_likes = request.form["teaching_likes"]
+    teaching_recommendations = request.form["teaching_recommendations"]
+    lab_likes = request.form["lab_likes"]
+    lab_recommendations = request.form["lab_recommendations"]
+
+    feedback = Feedback(
+        teaching_likes=teaching_likes,
+        teaching_recommendations=teaching_recommendations,
+        lab_likes=lab_likes,
+        lab_recommendations=lab_recommendations,
+        instructor_id=instructor_id
+    )
+
+    try:
+        db.session.add(feedback)
+        db.session.commit()
+        return jsonify({"success": True, "message": "Your feedback has been submitted successfully!"})
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"success": False, "message": "Error submitting feedback. Please try again."})
 
 @app.route("/news")
 def news():
@@ -135,6 +159,54 @@ def news():
 @app.route("/team")
 def team():
     return render_template("team.html")
+
+@app.route("/grades")
+def grades():
+    if session.get('account_type') != "Student":
+        return "forbidden"
+    student_id = session['user_id']
+
+    results = db.session.query(
+        Coursework.coursework_id,
+        Coursework.coursework_name,
+        Coursework.due_date,
+        AssignedCoursework.submission_date,
+        AssignedCoursework.mark,
+        RemarkRequest.status.label('remark_status')
+    ).join(
+        AssignedCoursework,
+        (AssignedCoursework.coursework_id == Coursework.coursework_id) &
+        (AssignedCoursework.student_id == student_id)
+    ).outerjoin(
+        RemarkRequest,
+        (RemarkRequest.coursework_id == Coursework.coursework_id) &
+        (RemarkRequest.student_id == student_id)
+    ).all()
+    return render_template('grades.html', results=results)
+
+@app.route("/request-remark", methods=['POST'])
+def request_remark():
+    if session.get('account_type') != "Student":
+        return "forbidden"
+    coursework_id = request.form["coursework_id"]
+    student_id = session['user_id']
+    reason = request.form["reason"]
+
+    remark_request = RemarkRequest(
+        coursework_id=coursework_id,
+        student_id=student_id,
+        reason=reason,
+        status="Pending"
+    )
+
+    try:
+        db.session.add(remark_request)
+        db.session.commit()
+        return jsonify({"success": True, "message": "Remark request submitted successfully!"})
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"success": False, "message": "Error submitting remark request. Please try again."})
+
 
 def getInstructorCoursework():
     return db.session.query(Coursework).filter(
@@ -148,7 +220,7 @@ def getStudentCoursework(coursework_id):
         AssignedCoursework.student_id == Users.user_id,
         AssignedCoursework.instructor_id == session["user_id"]).all()
 
-@app.route("/api/instructor/marks")
+@app.route("/api/instructor/grades")
 def assignedCourseworkApi():
     if session.get('account_type') != "Instructor":
         return "forbidden"
@@ -162,8 +234,8 @@ def assignedCourseworkApi():
     
     return jsonify({"results": results, "class": "Coursework", "header": "Assigned Coursework"})
 
-@app.route("/api/instructor/marks/<int:coursework_id>", methods=["GET", "POST"])
-def instructorMarksApi(coursework_id):
+@app.route("/api/instructor/grades/<int:coursework_id>", methods=["GET", "POST"])
+def instructorGradesApi(coursework_id):
     if session.get('account_type') != "Instructor":
         return "forbidden"
     if request.method == "GET":
@@ -202,9 +274,9 @@ def instructorMarksApi(coursework_id):
         
         return jsonify({"error": "User not found or role mismatch"}), 404
     
-@app.route("/instructor/marks")
-@app.route("/instructor/marks/<int:coursework_id>")
-def instructorMarks(coursework_id = None):
+@app.route("/instructor/grades")
+@app.route("/instructor/grades/<int:coursework_id>")
+def instructorGrades(coursework_id = None):
     if session.get('account_type') != "Instructor":
         return "forbidden"
     
@@ -266,7 +338,6 @@ def instructorRemarkRequestsApi(remark_request_id = None):
         ).distinct().all()
         requests = []
         for result in results:
-            print(result)
             request_format = result[0].to_dict()
             request_format["student_name"] = result[1] + " " + result[2]
             request_format["coursework_name"] = result[3]
@@ -312,6 +383,5 @@ def instructorRemarkRequests():
     return render_template("instructorTable.html")
 
 
-
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, host='localhost', port=5000)

@@ -32,9 +32,9 @@ const reviewFeedbackCell = (td, row, value, refetch) => {
             body: JSON.stringify({ feedback_id: row[value], reviewed: true }),
         })
         if (response.ok) {
-            refetch("Feedback reviewed successfully.");
+            refetch("Feedback reviewed successfully.", true);
         } else {
-            console.error("Error submitting review:", response.statusText);
+            refetch("Error reviewing feedback:", false);
         }
     });
     td.appendChild(button);
