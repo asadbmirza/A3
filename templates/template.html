@@ -23,13 +23,19 @@
               <a href="{{url_for('labs')}}">Labs</a>
               <a href="{{url_for('notes')}}">Lecture Notes</a>
               <a href="{{url_for('tests')}}">Tests</a>
-              <a href="{{url_for('grades')}}">Grades</a>
               <a href="https://piazza.com/class/m5fmz9kzjo83yk">Piazza</a>
               <a href="https://markus2.utsc.utoronto.ca/">Markus</a>
               <a href="{{url_for('calendar')}}">Calendar</a>
-              <a href="{{url_for('feedback')}}">Feedback</a>
               <a href="{{url_for('news')}}">News</a>
               <a href="{{url_for('team')}}">Course Team</a>
+              {% if session['account_type'] == 'Student' %}
+                <a href="{{url_for('grades')}}">Grades</a>
+                <a href="{{url_for('feedback')}}">Feedback</a>
+              {% elif session['account_type'] == 'Instructor' %}
+                <a href="{{url_for('instructorGrades')}}">Grades</a>
+                <a href="{{url_for('instructorRemarkRequests')}}">Remark's</a>
+                <a href="{{url_for('instructorFeedback')}}">Feedback</a>
+              {% endif %}
             </div>
         </div>
         

@@ -1,0 +1,240 @@
+@import url('https://fonts.googleapis.com/css2?family=Marmelad&display=swap');
+
+.emptyCell {
+    color: #2a4d6b;
+    font-weight: bold;
+    text-align: center;
+    font-size: 24px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #ccc;
+    font-family: Marmelad, Arial, sans-serif;
+    min-height: 300px
+}
+  
+th, td {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+th {
+    background-color: #f2f2f2;
+    white-space: normal;
+    word-wrap: break-word;
+}
+
+body.dark-mode td, body.dark-mode th{
+    border: 1px solid #696969;    
+}
+
+body.dark-mode th {
+    background-color: #2a4d6b;
+    color: white;
+}
+
+body.dark-mode tr, body.dark-mode dialog, body.dark-mode .dialogForm {
+    background-color: #2C2C2C;
+    color: white;
+}
+
+tr:nth-child(even) {
+    background-color: beige;      
+}
+
+body.dark-mode tr:nth-child(even) {
+    background-color: rgb(0, 0, 0);      
+}
+
+a {
+    color: #2a4d6b;
+    font-weight: bold;
+}
+
+.errorCell {
+    font-weight: bold;
+    color: red;
+}
+
+dialog {
+    border: none;
+    background-color: #f2f2f2;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    font-family: Marmelad, Arial, sans-serif;
+    text-align: center;
+}
+
+.dialogForm {
+    background-color: #f1f1f1;
+    padding: 20px;
+    width: 50%;
+    margin: 0 auto;
+    position: relative;
+    border-radius: 8px;
+}
+
+.dialogForm h2 {
+    font-size: 30px;
+}
+
+.dialogForm label {
+    font-family: Marmelad;
+    font-size: 20px;
+    display: block;
+}
+
+.dialogForm input {
+    width: 80%;
+    height: 30px;
+    font-size: 20px;
+    margin: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+button {
+    background-color: #416b85;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 10px;
+    display: block;
+}
+
+.dialogForm button{
+    margin: 20px auto;
+}
+
+.dialogForm button:hover{
+    background-color: #2a4d6b;
+}
+
+#contentHeader {
+    text-align: center;
+    font-family: Marmelad, Arial, sans-serif;
+}
+
+body.dark-mode #contentHeader {
+    color: white;
+}
+
+
+.submitGradeCell > button {
+    color: #2a4d6b;
+    background-color: transparent;
+    border: none;
+    font-size: 16px;
+    font-family: inherit;
+    font-weight: bold;
+    text-decoration: underline;
+    padding: 0;
+}
+
+.feedbackButton {
+    display: none;
+    font-size: 16px;
+}
+
+
+.feedbackCell {
+    max-width: 100px;
+}
+
+.feedbackCell:hover .feedbackButton {
+    display: inline-block;
+}
+
+.feedbackCell:hover .feedbackText {
+    display: none;
+}
+
+.dialogForm .rejectButton {
+    background-color: #ff4d4d;
+}
+
+.buttonContainer {
+    display: flex;
+    gap: 10px;
+}
+.buttonContainer > .rejectButton:hover {
+    background-color: #ff1a1a;
+}
+
+.dialogForm .closeButton {
+    background-color: #ccc;
+}
+.dialogForm .closeButton:hover {
+    background-color: #aaa;
+}
+
+.hidden {
+    display: none;
+}
+
+#message {
+    color: white;
+    padding: 10px;
+    text-align: center;
+    position: fixed;
+    top: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 5px;
+    font-family: Marmelad;
+}
+
+#message.successMessage {
+    background-color: green;
+}
+#message.errorMessage {
+    background-color: red;
+}
+
+@media (max-width: 600px) {
+    table {
+        display: flex;
+        flex-direction: column;
+        height: auto;
+    }
+    thead {
+        display: none;
+    }
+    tr {
+        display: block;
+        margin-bottom: 10px;
+        border: 1px solid #0c0b0b;
+        padding: 10px;
+    }
+    td {
+        display: flex;
+        padding: 5px;
+        min-height: 16px;
+        text-align: center;
+        justify-content: center;
+    }
+
+    .feedbackCell {
+        max-width: none;
+        max-height: none;
+    }
+
+    .feedbackButton {
+        display: block;
+    }
+    .feedbackText {
+        display: none;
+    }
+
+    .buttonContainer {
+        flex-wrap: wrap ;
+    }
+
+}

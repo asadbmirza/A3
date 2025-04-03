@@ -28,19 +28,21 @@
         
                 {% if i.submission_date %}
                     <td>{{ i.submission_date.strftime('%Y-%m-%d') }}</td>
-                    <td>{{ i.mark }}%</td>
-                    <td>
+                {% else %}
+                    <td>Not submitted</td>
+                {% endif %}
+                <td>{{ i.mark ~ '%' if i.mark is not none else '—' }}</td>
+                <td>
+                    {% if i.mark is not none %}
                         {% if i.remark_status %}
                             <span class="remark-status">Status: {{ i.remark_status }}</span>
                         {% else %}
-                            <button class="remark-button" data-coursework-id = "{{i.coursework_id}}">Request Remark</button>
+                            <button class="remark-button" data-coursework-id="{{ i.coursework_id }}">Request Remark</button>
                         {% endif %}
-                    </td>
-                {% else %}
-                    <td>Not submitted</td>
-                    <td>—</td>
-                    <td>—</td>
-                {% endif %}
+                    {% else %}
+                        —
+                    {% endif %}
+                </td>
             </tr>
             {% endfor %}
         </table>

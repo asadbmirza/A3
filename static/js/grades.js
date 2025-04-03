@@ -3,7 +3,6 @@ $(document).ready(function() {
     $(".remark-button").click(function() {
         courseworkId = $(this).data("coursework-id");
         $("#coursework_id").val(courseworkId);
-        console.log($(this).serialize());
         $("#remarkModal").fadeIn(200);
     });
 

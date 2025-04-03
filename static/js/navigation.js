@@ -3,7 +3,8 @@ $(document).ready(function() {
     const currentPath = window.location.pathname;
 
     $('.nav-links a').each(function() {
-        if ($(this).attr('href') === currentPath) {
+        const linkPath = $(this).attr('href');
+        if ((linkPath === '/' && currentPath === '/') || (linkPath !== '/' && currentPath.startsWith(linkPath))) {
             $(this).addClass('active');
         } else {
             $(this).removeClass('active');
